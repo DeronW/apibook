@@ -1,22 +1,25 @@
 # APIBook
 
-usage
+### What is API book?
 
-Install localize, and enjoy it.
+write down you API, with a formatted document
 
-Installation
+### Alternative?
 
-Python3.6+
+* API Doc
 
-```shell
+* Rap
 
-    pip3 install virtualenv
+## Roadmap
 
-    virtualenv ENV
-    source ENV/bin/activate
+start at 2018-06-09
 
-    python manage.py collectstatic
+#### Phase 1
 
-    gunicorn -w 4 server.wsgi:application
+#### Phase 2
 
-```
+#### Phase 3
+
+#### Phase 4
+
+#### Phase 5
