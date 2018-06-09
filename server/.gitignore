@@ -1,9 +1,10 @@
 
 *.pyc
-./static/*
+static/*
 .vscode
 *.sqlite
 *.sqlite3
 *.map
+*.mo
 
 .DS_Store

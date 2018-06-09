@@ -1,25 +1,72 @@
- {% extends "projects/base.html" %} {% load static %} {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'projects/css/index.css' %}" /> {% endblock %} {% block body %}
+ {% extends "projects/base.html" %} {% load static %} {% load i18n %} {% block stylesheet %}
+<link rel="stylesheet" href="{% static 'projects/css/index.css' %}" /> {% endblock %} {% block content %}
 
-<div class="content">
-    
-</div>
+<br />
 <div class="container">
-    <ul class="nav justify-content-end">
-        <li class="nav-item">
-            <a class="nav-link active" href="#">Active</a>
-        </li>
+    <div class="row">
+        <div class="col-md-8">
 
-        <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-    </ul>
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">{% trans 'Group' %}</th>
+                        <th scope="col">{% trans 'Describe' %}</th>
+                        <th scope="col">{% trans 'Project Count' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for group in groups %}
+                    <tr>
+                        <th>
+                            <a href="/projects/group/">{{ group.name }}</a></th>
+                        <td>{{ group.describe }}</td>
+                        <td>official</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">{% trans 'Project' %}</th>
+                        <th scope="col">{% trans 'Describe' %}</th>
+                        <th scope="col">{% trans 'API Count' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                    <tr>
+                        <th>{{ project.name }}</th>
+                        <td>{{ project.describe }}</td>
+                        <td>20</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+
+            <ul class="list-group">
+                <li class="list-group-item">FAQ
+                </li>
+                <li class="list-group-item">
+                    <a href="#">Concept</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#">Permission</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#">Example</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#">Feedback</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
 </div>
+
 
 {% endblock %}

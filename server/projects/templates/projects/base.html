@@ -1,5 +1,7 @@
 {% load static %}
 
+{% load i18n %}
+
 <!DOCTYPE html>
 
 <html>
@@ -7,17 +9,43 @@
 <head>
     <meta charset="utf-8" />
     <title>{% block title %}API Book{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'projects/bootstrap-4.1.1-dist/css/bootstrap.css' %}" />
-    {% block stylesheet %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'projects/bootstrap-4.1.1-dist/css/bootstrap.css' %}" /> {% block stylesheet %}{% endblock %}
     <script src="{% static 'projects/jquery-3.3.1.slim.min.js' %}"></script>
     <script src="{% static 'projects/bootstrap-4.1.1-dist/js/bootstrap.js' %}"></script>
 </head>
 
 <body>
     {% block body %}
-    {% block content %} {% endblock %}
+    <div class="container">
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+            <a class="navbar-brand" href="#">API Book</a>
 
-    {% endblock %}
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+
+                <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            {% trans 'Create' %}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">{% trans 'New Group' %}</a>
+                            <a class="dropdown-item" href="#">{% trans 'New Project' %}</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item">New API</a>
+                        </div>
+                    </li>
+                </ul>
+                
+            </div>
+        </nav>
+    </div>
+    {% block content %} {% endblock %} {% endblock %}
 </body>
 
 </html>
