@@ -1,5 +1,9 @@
+
 *.pyc
-static
+./static/*
 .vscode
 *.sqlite
 *.sqlite3
+*.map
+
+.DS_Store

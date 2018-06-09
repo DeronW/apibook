@@ -121,4 +121,4 @@ USE_TZ = True
 STATIC_ROOT = './static'
 STATIC_URL = '/static/'
 
-ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"  
+ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
