@@ -9,37 +9,67 @@
             <table class="table">
                 <thead class="thead-light">
                     <tr>
-                        <th scope="col">{% trans 'Group' %}</th>
-                        <th scope="col">{% trans 'Describe' %}</th>
-                        <th scope="col">{% trans 'Project Count' %}</th>
+                        <th scope="col">{% trans 'My Groups' %}</th>
+                        <th scope="col">{% trans 'My Projects' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <table class="table">
+                                {% for group in groups %}
+                                <tr>
+                                    <td>{{ group.name }}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                        <td>
+                            <table class="table">
+                                {% for project in projects %}
+                                <tr>
+                                    <td>{{ project.name }}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th colspan="2">{% trans 'Public Groups' %}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for group in groups %}
                     <tr>
                         <th>
-                            <a href="/projects/group/">{{ group.name }}</a></th>
+                            <a href="/projects/group/">{{ group.name }}</a>
+                        </th>
                         <td>{{ group.describe }}</td>
-                        <td>official</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
 
+
             <table class="table">
                 <thead class="thead-light">
                     <tr>
-                        <th scope="col">{% trans 'Project' %}</th>
-                        <th scope="col">{% trans 'Describe' %}</th>
-                        <th scope="col">{% trans 'API Count' %}</th>
+                            <th colspan="2">{% trans 'Public Projects' %}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for project in projects %}
+                    {% for group in groups %}
                     <tr>
-                        <th>{{ project.name }}</th>
-                        <td>{{ project.describe }}</td>
-                        <td>20</td>
+                        <th>
+                            <a href="/projects/group/">{{ group.name }}</a>
+                        </th>
+                        <td>{{ group.describe }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    {% block body %}
     <div class="sticky-top navbar-dark bg-dark">
         <div class="container py-2">
             <div class="row">
@@ -36,7 +37,7 @@
                             <a class="dropdown-item" href="#">{% trans 'New Group' %}</a>
                             <a class="dropdown-item" href="#">{% trans 'New Project' %}</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="https://github.com/DeronW/apibook/issues">{% trans 'New Feedback' %}</a>
+                            <a class="dropdown-item" href="https://github.com/DeronW/apibook/issues">{% trans 'Feedback' %}</a>
                         </div>
                     </div>
 
@@ -45,7 +46,6 @@
             </div>
         </div>
     </div>
-    {% block body %}
     {% block content %} {% endblock %} {% endblock %}
 </body>
 
