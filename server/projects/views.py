@@ -25,3 +25,10 @@ def index(request):
         } for x in ps],
         "t": _("ttt")
     })
+
+def groups(request):
+    pass
+
+def groups_new(request):
+
+    return render(request, 'projects/groups/new.html',{})
