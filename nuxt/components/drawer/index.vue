@@ -2,7 +2,7 @@
 
 <template>
     <v-navigation-drawer
-      v-if="drawer"
+      v-model="drawer"
       fixed
       clipped
       class="grey lighten-4"
@@ -23,9 +23,6 @@
               <v-subheader v-if="item.heading">
                 {{ item.heading }}
               </v-subheader>
-            </v-flex>
-            <v-flex xs6 class="text-xs-right">
-              <v-btn small flat>edit</v-btn>
             </v-flex>
           </v-layout>
           <v-divider

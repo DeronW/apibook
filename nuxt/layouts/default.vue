@@ -2,8 +2,12 @@
     <v-app>
         <Header />
         <Drawer />
-        <nuxt />
-        
+            
+        <v-content>
+        <v-container fill-height>
+            <nuxt />
+        </v-container>
+        </v-content>
     </v-app>
 </template>
 

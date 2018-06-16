@@ -1,4 +1,6 @@
 import Header from "./header";
 import Drawer from "./drawer";
 
-export { Header, Drawer };
+import GroupForm from "./groups/form"
+
+export { Header, Drawer, GroupForm };

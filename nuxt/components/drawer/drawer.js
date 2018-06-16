@@ -1,10 +1,27 @@
 export default {
-    computed: {
-        drawer: function() {
-            console.log(111, this.$store.state.drawer)
-            return this.$store.state.drawer;
-        }
+    data() {
+        let items = [
+            { heading: "Favorites" },
+            { icon: "star_border", text: "some project" },
+            { icon: "star_border", text: "some project" },
+            { divider: true },
+            { heading: "Group" },
+            { icon: "star_border", text: "some group" },
+            { icon: "star_border", text: "some group" },
+            { divider: true },
+            { icon: "settings", text: "Settings" },
+            { icon: "help", text: "Help" }
+        ];
+        return {
+            items: items
+        };
     },
-    fetch({store}){
+    computed: {
+        drawer: {
+            get: function() {
+                return this.$store.state.drawer;
+            },
+            set: () => null
+        }
     }
 };
