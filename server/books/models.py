@@ -105,3 +105,13 @@ class ApiResponseField(BaseModel):
     entry = models.ForeignKey('ApiResponse', null=True,
                               on_delete=models.SET_NULL)
     nodes = models.CharField(max_length=2000)
+
+class GlobaConfig(models.Model):
+    base_url = models.CharField(blank=True, null=True, max_length=100)
+
+    def save(self):
+        if self.pk is not None:
+            raise Exception('GlobalConfig should be singleton, and we have already have one')
+        else:
+            self.pk = 1
+            self.save()

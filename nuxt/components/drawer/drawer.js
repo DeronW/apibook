@@ -3,14 +3,12 @@ export default {
         let items = [
             { heading: "Favorites" },
             { icon: "star_border", text: "some project" },
-            { icon: "star_border", text: "some project" },
             { divider: true },
             { heading: "Group" },
             { icon: "star_border", text: "some group" },
-            { icon: "star_border", text: "some group" },
             { divider: true },
-            { icon: "settings", text: "Settings" },
-            { icon: "help", text: "Help" }
+            { icon: "settings", text: "Settings", link: "/settings" },
+            { icon: "help", text: "Help", link: "/help" }
         ];
         return {
             items: items

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from projects.models import (
+from books.models import (
     Group, Project, Module, ApiEntry, ApiRequest, ApiResponse, ApiRequestField, ApiResponseField
 )
 

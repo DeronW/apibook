@@ -9,7 +9,7 @@ module.exports = {
         meta: [{ charset: "utf-8" }]
     },
     css: [],
-    plugins: ["~/plugins/i18n.js", "~/plugins/define.js"],
+    plugins: ["~/plugins/i18n.js", "~/plugins/define.js", "~/plugins/axios.js"],
     build: {
         // analyze: true,
         extractCSS: true,
@@ -23,9 +23,12 @@ module.exports = {
         }
     },
     modules: ["@nuxtjs/proxy", "@nuxtjs/axios", "@nuxtjs/vuetify"],
+    axios: {
+        prefix: '/apibooks'
+    },
     proxy: {
-        "/api/": {
-            target: "http://localhost:3000"
+        "/apibooks": {
+            target: "http://localhost:8000"
         }
     }
 };
