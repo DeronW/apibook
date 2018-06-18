@@ -10,6 +10,12 @@ write down you API, with a formatted document
 
 * Rap
 
+### Inspiration
+
+[!image](https://raw.githubusercontent.com/DeronW/apibook/master/images/model.jpg)
+
+[!image](https://raw.githubusercontent.com/DeronW/apibook/master/images/structure.jpg)
+
 ## Roadmap
 
 start at 2018-06-09
@@ -19,7 +25,3 @@ start at 2018-06-09
 #### Phase 2
 
 #### Phase 3
-
-#### Phase 4
-
-#### Phase 5
