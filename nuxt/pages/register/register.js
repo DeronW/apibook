@@ -4,7 +4,7 @@ export default {
             valid: true,
             name: "",
             password: "",
-            showPwd: false,
+            password2: "",
             fieldRules: [v => !!v || this.$t("This field is required")]
         };
     },

@@ -1,1 +1,9 @@
-{}
+{
+    "Login": "登录",
+    "Register": "注册",
+    "Logout": "退出",
+    "Password": "密码",
+    "PasswordRepeat": "密码确认",
+    "Username": "用户名",
+    "This field is required": "这是必填字段"
+}

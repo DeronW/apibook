@@ -2,7 +2,6 @@
 <i18n>
 {
     "zh": {
-        "Login": "登录",
         "New Group": "创建组",
         "New Project": "创建项目"
     }
@@ -33,7 +32,9 @@
 
         <v-toolbar-items>
             <v-btn nuxt v-if="!isLogin" to="/login">{{$t('Login')}} </v-btn>
+            <v-btn nuxt v-if="!isLogin" to="/register">{{$t('Register')}} </v-btn>
             <v-btn nuxt v-if="isLogin" :to="'/user/' + user.id">{{user.name}}</v-btn>
+            <v-btn v-if="isLogin" :click="logout()">{{$('Logout')}}</v-btn>
         </v-toolbar-items>
     </v-toolbar>
 </template>

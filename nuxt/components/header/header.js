@@ -20,6 +20,11 @@ export default {
     methods: {
         toggleDrawer: function(){
             this.$store.commit('TOGGLE_DRAWER')
+        },
+        logout: function(){
+            this.$axios.$get('/logout.json').then(res => {
+                this.isLogin = false
+            })
         }
     }
 };
