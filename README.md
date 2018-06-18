@@ -12,9 +12,9 @@ write down you API, with a formatted document
 
 ### Inspiration
 
-[!image](https://raw.githubusercontent.com/DeronW/apibook/master/images/model.jpg)
+![image](https://raw.githubusercontent.com/DeronW/apibook/master/images/models.jpg)
 
-[!image](https://raw.githubusercontent.com/DeronW/apibook/master/images/structure.jpg)
+![image](https://raw.githubusercontent.com/DeronW/apibook/master/images/structure.jpg)
 
 ## Roadmap
 
