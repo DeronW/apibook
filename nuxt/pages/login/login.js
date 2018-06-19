@@ -13,13 +13,17 @@ export default {
         submit() {
             if (this.$refs.form.validate()) {
                 this.$axios
-                    .$post("/login.json", {
+                    .$post("/user/login.json", {
                         username: this.name,
                         password: this.password
                     })
                     .then(res => {
                         if (res.success) {
-                            location.href = "/";
+                            // this.$router.push('/')
+                            this.$store.dispatch('notify', {
+                                type: 'success',
+                                text: this.$t('Login Success')
+                            })
                         }
                     });
             }

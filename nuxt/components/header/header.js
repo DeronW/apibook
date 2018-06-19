@@ -1,30 +1,37 @@
 export default {
-    data: () => ({
-        drawer: null,
-        items: ["Group", "Project"],
-        isLogin: false,
-        user: {
-            name: '',
-            id: ''
+    data() {
+        return {
+            items: ["Group", "Project"]
+        };
+    },
+    computed: {
+        user() {
+            return this.$store.state.user;
         }
-    }),
-    mounted(){
-        this.$axios.$get('/userinfo.json').then(res => {
-            this.isLogin = res.isLogin
-            if(res.isLogin){
-                this.user.name = res.username
-                this.user.id = res.user_id
+    },
+    mounted() {
+        this.$axios.$get("/user/info.json").then(res => {
+            if (res.id) {
+                this.$store.commit("user/login", {
+                    id: res.id,
+                    username: res.username,
+                    isAdmin: res.isAdmin
+                });
             }
-        })
+        });
     },
     methods: {
-        toggleDrawer: function(){
-            this.$store.commit('TOGGLE_DRAWER')
+        toggleDrawer: function() {
+            this.$store.commit("TOGGLE_DRAWER");
         },
-        logout: function(){
-            this.$axios.$get('/logout.json').then(res => {
-                this.isLogin = false
-            })
+        goHome: function() {
+            this.$router.push("/");
+        },
+        logout: function() {
+            this.$axios.$get("/user/logout.json").then(res => {
+                this.isLogin = false;
+                location = '/'
+            });
         }
     }
 };

@@ -1,8 +1,13 @@
 export default {
+    head(){
+        return {
+            title: this.$t('Register')
+        }
+    },
     data() {
         return {
             valid: true,
-            name: "",
+            email: "",
             password: "",
             password2: "",
             fieldRules: [v => !!v || this.$t("This field is required")]
@@ -13,8 +18,8 @@ export default {
         submit() {
             if (this.$refs.form.validate()) {
                 this.$axios
-                    .$post("/login.json", {
-                        username: this.name,
+                    .$post("/user/register.json", {
+                        email: this.email,
                         password: this.password
                     })
                     .then(res => {

@@ -6,9 +6,16 @@ write down you API, with a formatted document
 
 ### Alternative?
 
-* API Doc
+* [API Doc](http://apidocjs.com/)
+* [Swagger](https://swagger.io/)
+* [Sphinx](http://www.sphinx-doc.org/en/master/)
+* [RAML](https://raml.org/)
 
-* Rap
+* [rap](http://rapapi.org/org/index.do)
+* [apizza](https://apizza.net/)
+* [eslinker](https://www.eolinker.com/#/)
+
+* [ShowDoc](https://www.showdoc.cc/web/#/)
 
 ### Inspiration
 

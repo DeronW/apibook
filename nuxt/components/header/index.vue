@@ -10,11 +10,11 @@
 <template>
     <v-toolbar app absolute clipped-left>
         <v-toolbar-side-icon @click.native="toggleDrawer"></v-toolbar-side-icon>
-        <span class="title ml-3 mr-5">API Books</span>
+        <span class="title ml-3 mr-5" :click="goHome">API Books</span>
         <v-text-field solo-inverted flat label="Search" prepend-icon="search"></v-text-field>
         <v-spacer></v-spacer>
 
-        <v-menu :nudge-width="100" v-if="isLogin">
+        <v-menu :nudge-width="100" v-if="user.isLogin">
             <v-toolbar-title slot="activator">
                 <v-btn icon>
                     <v-icon>add</v-icon>
@@ -31,10 +31,10 @@
         </v-menu>
 
         <v-toolbar-items>
-            <v-btn nuxt v-if="!isLogin" to="/login">{{$t('Login')}} </v-btn>
-            <v-btn nuxt v-if="!isLogin" to="/register">{{$t('Register')}} </v-btn>
-            <v-btn nuxt v-if="isLogin" :to="'/user/' + user.id">{{user.name}}</v-btn>
-            <v-btn v-if="isLogin" :click="logout()">{{$('Logout')}}</v-btn>
+            <v-btn nuxt v-if="!user.isLogin" to="/login">{{$t('Login')}} </v-btn>
+            <v-btn nuxt v-if="!user.isLogin" to="/register">{{$t('Register')}} </v-btn>
+            <v-btn nuxt v-if="user.isLogin" :to="'/users/' + user.id">{{user.name}}</v-btn>
+            <v-btn v-if="user.isLogin" v-on:click="logout">{{$t('Logout')}}</v-btn>
         </v-toolbar-items>
     </v-toolbar>
 </template>

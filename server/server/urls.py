@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    # path(r'^/$', redirect_to, {'url': '/apibooks'}),
     path('apibooks/', include('books.urls')),
     path('admin/', admin.site.urls),
-    path('grappelli/',include('grappelli.urls'))
+    path('grappelli/', include('grappelli.urls'))
 ]
