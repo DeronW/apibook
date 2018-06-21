@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
+from books.decorators import need_login
 import json
 from IPython import embed
 
@@ -34,13 +35,13 @@ def login_user(request):
         # Return an 'invalid login' error message.
         return JsonResponse({'success': False})
 
-
+@need_login
 def logout_user(request):
     logout(request)
     return JsonResponse({'success': True})
 
 
-@login_required
+
 def info(request):
     user = request.user
     if user.is_authenticated:
@@ -48,15 +49,8 @@ def info(request):
             'username': user.username,
             'id': user.id,
             'isAdmin': user.is_superuser
-            })
+        })
     else:
-        return JsonResponse({'isLogin': False})
-
-
-@login_required
-def user_detail(request):
-
-    if request.user.is_authenticated:
-        pass
-    else:
-        return JsonResponse({'isLogin': False})
+        return JsonResponse({
+            'id': None
+        })
