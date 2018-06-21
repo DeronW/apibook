@@ -33,13 +33,18 @@ def login_user(request):
         return JsonResponse({'success': True})
     else:
         # Return an 'invalid login' error message.
-        return JsonResponse({'success': False})
+        return JsonResponse({
+            'success': False,
+            'message': {
+                'type': 'error',
+                'text': 'Wrong username or password'
+            }})
+
 
 @need_login
 def logout_user(request):
     logout(request)
     return JsonResponse({'success': True})
-
 
 
 def info(request):

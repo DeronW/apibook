@@ -9,12 +9,14 @@ export default function({ app, $axios, redirect }) {
     });
 
     $axios.interceptors.response.use(function(response) {
-        if (response.headers["content-type"] == "application/json") {
-            if (response.data && response.data.code == 401) {
-                app.store.dispatch("notify", {
-                    type: "error",
-                    text: "Login required"
-                });
+        let { data, headers } = response;
+        if (headers["content-type"] == "application/json" && data) {
+            if (data.success === false) {
+                app.store.dispatch("notify", Object.assign({
+                    type: 'info',
+                    text: 'wait~, something wrong'
+                }, data.message));
+                return Promise.reject(data)
             }
         }
         return response;

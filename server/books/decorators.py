@@ -8,8 +8,11 @@ def need_login(function):
             return function(request, *args, **kwargs)
         else:
             return JsonResponse({
-                'code': 401,
-                'message': "Login required"
+                'success': False,
+                'message': {
+                    'type': "warning",
+                    'text': "Login required"
+                }
             })
     wrap.__doc__ = function.__doc__
     wrap.__name__ = function.__name__
