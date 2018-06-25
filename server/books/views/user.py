@@ -1,5 +1,6 @@
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
 
 
 from django.http import JsonResponse
@@ -13,49 +14,68 @@ from IPython import embed
 
 def register(request):
     data = request.json
+
     email = data.get('email')
+    username = data.get('username')
     pwd = data.get('password')
 
-    user = User.objects.create_user(email, email, pwd)
+    def err(text):
+        return JsonResponse({'success': False, 'message': {
+            'type': 'error',
+            'text': text
+        }})
+
+    if User.objects.filter(username=username)[0]:
+        return err(_('username already exist'))
+
+    if User.objects.filter(email=email)[0]:
+        return err(_('emali already exist'))
+
+    user = User.objects.create_user(username, email, pwd)
     if user.id:
         login(request, user)
         return JsonResponse({'success': True})
     else:
-        return JsonResponse({'success': False})
+        return err(_('register failed'))
 
 
 def login_user(request):
-    username = request.json.get('username')
+    username_or_email = request.json.get('username_or_email')
     pwd = request.json.get('password')
+
+    real_user = User.objects.filter(email=username_or_email)[0]
+    username = real_user.username if real_user else username_or_email
+
     user = authenticate(request, username=username, password=pwd)
-    if user is not None:
-        login(request, user)
-        return JsonResponse({'success': True})
-    else:
-        # Return an 'invalid login' error message.
+
+    if user is None:
         return JsonResponse({
             'success': False,
             'message': {
                 'type': 'error',
                 'text': 'Wrong username or password'
             }})
+    else:
+        login(request, user)
+        return JsonResponse({'success': True, 'data': get_user_info(user)})
 
 
 @need_login
 def logout_user(request):
     logout(request)
-    return JsonResponse({'success': True})
+    return JsonResponse({'success': True, 'message': 'Logout Success'})
 
 
 def info(request):
-    user = request.user
-    if user.is_authenticated:
-        return JsonResponse({
-            'username': user.username,
-            'id': user.id,
-            'isAdmin': user.is_superuser
-        })
-    else:
-        return JsonResponse({
-            'id': None
-        })
+    return JsonResponse({'data': get_user_info(request.user)})
+
+
+def get_user_info(user):
+
+    return {
+        'username': user.username,
+        'id': user.id,
+        'isAdmin': user.is_superuser
+    } if user.is_authenticated else {
+        'id': None
+    }

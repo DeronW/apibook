@@ -1,2 +1,8 @@
 {
+    "project": {
+        "name": "Name",
+        "describe": "Describe",
+        "creator": "Creator",
+        "created_at": "Created At"
+    }
 }

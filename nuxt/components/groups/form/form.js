@@ -1,31 +1,34 @@
 import axios from "axios";
 
 export default {
-    data: () => ({
-        valid: true,
-        name: "",
-        nameRules: [
-            v => !!v || "Name is required",
-            v => (v && v.length <= 10) || "Name must be less than 10 characters"
-        ],
-        describe: "",
-        checkbox: 1,
+    props: ["disabled"],
+    data() {
+        return {
+            valid: true,
+            project_titles: [
+                { text: this.$t("project.name"), sortable: false },
+                { text: this.$t('project.describe'), sortable: false },
+                { text: this.$t('project.creator'), sortable: false },
+                { text: this.$t('project.created_at'), sortable: false }
+            ],
+            projects: [
+                {
+                    avatar: "...",
+                    name: "t",
+                    describe: "d"
+                }
+            ],
+            model: {
+                name: "",
+                describe: "",
+                scope: "public",
+                status: "maintaining",
 
-        adminstrators: ['Programming', '2', 'Watching', '4'],
-        readers: ['1', 'Playing video games', '3', 'Sleeping'],
-        project_titles: [{
-            text: 'name',
-            sortable: false
-        }, {
-            text: 'Describe',
-            sortable: false
-        }],
-        projects: [{
-            avatar: '...',
-            name: 't',
-            describe: 'd'
-        }]
-    }),
+                adminstrators: ["Programming", "2", "Watching", "4"],
+                readers: ["1", "Playing video games", "3", "Sleeping"]
+            }
+        };
+    },
 
     methods: {
         submit() {
@@ -40,15 +43,15 @@ export default {
             }
         },
         clear() {
-            this.$refs.form.reset();
+            // this.$refs.form.reset();
         },
-        removeAdministrator (name) {
-            this.adminstrators.splice(this.adminstrators.indexOf(name), 1)
-            this.adminstrators = [...this.adminstrators]
+        removeAdministrator(name) {
+            this.adminstrators.splice(this.adminstrators.indexOf(name), 1);
+            this.adminstrators = [...this.adminstrators];
         },
-        removeReader(name){
-            this.readers.splice(this.readers.indexOf(name), 1)
-            this.readers = [...this.readers]
+        removeReader(name) {
+            this.readers.splice(this.readers.indexOf(name), 1);
+            this.readers = [...this.readers];
         }
     }
 };

@@ -1,7 +1,7 @@
 
 from django.urls import path, include
 
-from .views import user
+from .views import user, index
 
 users = [
     path('info.json', user.info),
@@ -11,8 +11,7 @@ users = [
 ]
 
 urlpatterns = [
-    # path('login.json', views.login_user),
-    # path('logout.json', views.logout_user),
+    path('', index),
     # path('settings.json', views.settings),
     path('user/', include(users))
 ]

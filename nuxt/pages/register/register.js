@@ -1,13 +1,13 @@
 export default {
-    head(){
+    head() {
         return {
-            title: this.$t('Register')
-        }
+            title: this.$t("Register")
+        };
     },
     data() {
         return {
-            valid: true,
             email: "",
+            username: "",
             password: "",
             password2: "",
             fieldRules: [v => !!v || this.$t("This field is required")]
@@ -20,17 +20,11 @@ export default {
                 this.$axios
                     .$post("/user/register.json", {
                         email: this.email,
+                        username: this.username,
                         password: this.password
                     })
-                    .then(res => {
-                        if (res.success) {
-                            location.href = "/";
-                        }
-                    });
+                    .then(() => (location.href = "/"));
             }
-        },
-        clear() {
-            this.$refs.form.reset();
         }
     }
 };

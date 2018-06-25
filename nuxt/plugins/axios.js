@@ -14,15 +14,14 @@ export default function({ app, $axios, redirect }) {
             if (data.success === false) {
                 app.store.dispatch("notify", Object.assign({
                     type: 'info',
-                    text: 'wait~, something wrong'
+                    text: 'waiiiit, something wrong'
                 }, data.message));
                 return Promise.reject(data)
             }
         }
-        return response;
+        return response.data;
     });
 
     $axios.onError(error => {
-        console.error(error);
     });
 }

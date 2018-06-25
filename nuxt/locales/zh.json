@@ -1,9 +1,17 @@
 {
     "Login": "登录",
+    "Email": "邮箱",
+    "Nickname": "昵称",
     "Register": "注册",
     "Logout": "退出",
     "Password": "密码",
     "PasswordRepeat": "密码确认",
     "Username": "用户名",
-    "This field is required": "这是必填字段"
+    "This field is required": "这是必填字段",
+    "project": {
+        "name": "项目名称",
+        "describe": "项目描述",
+        "creator": "创建者",
+        "created_at": "创建时间"
+    }
 }
