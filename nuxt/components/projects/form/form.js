@@ -3,23 +3,13 @@ export default {
     data() {
         return {
             valid: true,
-            project_titles: [
-                { text: this.$t("project.name"), sortable: false },
-                { text: this.$t("project.describe"), sortable: false },
-                { text: this.$t("project.creator"), sortable: false },
-                { text: this.$t("project.created_at"), sortable: false }
-            ],
-            projects: [
-                {
-                    avatar: "...",
-                    name: "t",
-                    describe: "d"
-                }
-            ],
+            group_list: [],
             model: {
                 name: "",
                 describe: "",
                 scope: "public",
+                status: "maintaining",
+                group_id: "",
 
                 adminstrators: ["Programming", "2", "Watching", "4"],
                 readers: ["1", "Playing video games", "3", "Sleeping"]
@@ -28,12 +18,24 @@ export default {
     },
     mounted() {
         if (this.id) {
-            this.$axios.$get("/group/info.json?id=" + this.id).then(data => {
+            this.$axios.$get("/project/info.json?id=" + this.id).then(data => {
                 this.model.name = data.name;
                 this.model.describe = data.describe;
                 this.model.scope = data.scope;
+                this.model.status = data.status;
+                this.model.group_id = data.group_id;
             });
         }
+        this.$axios.$get("/group/list.json").then(data => {
+            let items = [];
+            data.forEach(i => {
+                items.push({
+                    text: i.name,
+                    value: i.id
+                });
+            });
+            this.group_list = items;
+        });
     },
     methods: {
         submit() {
@@ -42,13 +44,15 @@ export default {
         },
         createGroup() {
             this.$axios
-                .$post("/group/create.json", {
+                .$post("/project/create.json", {
                     name: this.model.name,
                     describe: this.model.describe,
-                    scope: this.model.scope
+                    scope: this.model.scope,
+                    status: this.model.status,
+                    group: this.model.group
                 })
                 .then(data => {
-                    this.$router.push("/groups/" + data.id);
+                    this.$router.push("/projects/" + data.id);
                     this.$store.dispatch("notify", {
                         type: "success",
                         text: this.$t("Creation Success")
@@ -61,7 +65,8 @@ export default {
                     id: this.id,
                     name: this.model.name,
                     describe: this.model.describe,
-                    scope: this.model.scope
+                    scope: this.model.scope,
+                    status: this.model.status
                 })
                 .then(() => {
                     this.$store.dispatch("notify", {

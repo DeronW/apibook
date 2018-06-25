@@ -7,7 +7,6 @@ export const state = () => ({
 
 export const mutations = {
     login(state, userinfo){
-        console.log('......', userinfo)
         state.id = userinfo.id
         state.isAdmin = userinfo.isAdmin
         state.name = userinfo.username,

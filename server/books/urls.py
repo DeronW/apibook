@@ -1,7 +1,7 @@
 
 from django.urls import path, include
 
-from .views import user, index
+from .views import group, project, user, index
 
 users = [
     path('info.json', user.info),
@@ -10,8 +10,23 @@ users = [
     path('logout.json', user.logout_user),
 ]
 
+groups = [
+    path('create.json', group.create),
+    path('update.json', group.update),
+    path('list.json', group.list),
+    path('info.json', group.info)
+]
+
+projects = [
+    path('create.json', project.create),
+    # path('update.json', project.update),
+    path('list.json', project.list),
+    path('info.json', project.info)
+]
+
 urlpatterns = [
     path('', index),
-    # path('settings.json', views.settings),
+    path('project/', include(projects)),
+    path('group/', include(groups)),
     path('user/', include(users))
 ]

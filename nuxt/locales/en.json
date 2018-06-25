@@ -3,6 +3,8 @@
         "name": "Name",
         "describe": "Describe",
         "creator": "Creator",
-        "created_at": "Created At"
+        "created_at": "Created At",
+        "public label": "Anyone can see this repository. You choose who can commit.",
+        "private label": "You choose who can see and commit to this repository."
     }
 }

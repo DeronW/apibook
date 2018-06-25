@@ -2,7 +2,7 @@
 <i18n>
 {
     "zh": {
-        "New Group": "创建组",
+        "New Group": "创建组织",
         "New Project": "创建项目"
     }
 }

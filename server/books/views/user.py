@@ -1,5 +1,3 @@
-from django.views.decorators.http import require_http_methods
-from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
 
 
@@ -8,7 +6,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from books.decorators import need_login
-import json
 from IPython import embed
 
 
