@@ -1,7 +1,8 @@
-import { ApiList, APIs } from "~/components";
+import { ApiList, ApiForm } from "~/components";
 
 export default {
     components: {
-        ApiList, APIs
+        ApiList,
+        ApiForm
     }
 };

@@ -1,12 +1,14 @@
 <script src="./_id.js"></script>
 
 <template>
-    <v-layout>
-        <v-flex xs6>
-            <ApiList />
-        </v-flex>
-        <v-flex xs6>
-            <APIs />
-        </v-flex>
-    </v-layout>
+    <v-container>
+        <v-layout>
+            <v-flex xs4>
+                <ApiList />
+            </v-flex>
+            <v-flex xs8>
+                <ApiForm />
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
