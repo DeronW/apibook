@@ -1,5 +1,5 @@
 <template>
-  <GroupForm/>
+  <GroupForm />
 </template>
 
 <script>

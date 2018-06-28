@@ -1,18 +1,19 @@
+import ListTitle from "./list-title.vue";
+
 export default {
     data() {
-        let items = [
-            { heading: "Favorites" },
-            { icon: "star_border", text: "some project" },
-            { divider: true },
-            { heading: "Group" },
-            { icon: "star_border", text: "some group" },
-            { divider: true },
-            { icon: "settings", text: "Settings", link: "/settings" },
-            { icon: "help", text: "Help", link: "/help" }
-        ];
         return {
-            items: items
+            projects: [],
+            groups: []
         };
+    },
+    mounted() {
+        this.$axios.$get("/group/list.json").then(data => {
+            this.groups = data.map(i => ({ name: i.name, id: i.id }));
+        });
+        this.$axios.$get("/project/list.json").then(data => {
+            this.projects = data.map(i => ({ name: i.name, id: i.id }));
+        });
     },
     computed: {
         drawer: {
@@ -21,5 +22,13 @@ export default {
             },
             set: () => null
         }
+    },
+    methods: {
+        link: function(path) {
+            this.$router.push(path);
+        }
+    },
+    components: {
+        ListTitle
     }
 };

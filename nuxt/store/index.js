@@ -1,6 +1,6 @@
 export const state = () => ({
     locale: "zh",
-    drawer: 1,
+    drawer: false,
     message: {
         show: false,
         type: "info",

@@ -2,7 +2,7 @@
 <i18n>
 {
     "zh": {
-        "Name": "用户名",
+        "Name or Email": "用户名或邮箱",
         "Password": "密码",
         "Submit": "登录"
     }
@@ -12,7 +12,7 @@
     <v-layout justify-center align-center>
         <v-flex xs6 offset-xs1>
         <v-form ref="form" v-model="valid" lazy-validation>
-            <v-text-field v-model="name" :label="$t('Name')" :rules="fieldRules" required></v-text-field>
+            <v-text-field v-model="username_or_email" :label="$t('Name or Email')" :rules="fieldRules" required></v-text-field>
             <v-text-field v-model="password" :label="$t('Password')"  
             :append-icon="showPwd ? 'visibility' : 'visibility_off'"
             :append-icon-cb="() => (showPwd = !showPwd)"

@@ -2,8 +2,10 @@
 <i18n>
 {
     "zh": {
+        "Project Status": "项目状态",
         "Submit": "保存",
         "input name": "输入用户名, 然后回车",
+        "Group Selector": "选择组",
         "Project List": "项目列表"
     },
     "en": {
@@ -18,11 +20,27 @@
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-layout row wrap>
         <v-flex xs5 offset-xs1>
-          <v-text-field v-model="model.name" :label="$t('group.name')" required>
+          <v-text-field v-model="model.name" :label="$t('project.name')" required>
           </v-text-field>
-          <v-text-field v-model="model.describe" :label="$t('group.describe')" multi-line></v-text-field>
+          <v-text-field v-model="model.describe" :label="$t('project.describe')" multi-line></v-text-field>
+
+            <v-select
+              :items="group_list"
+              v-model="model.group_id"
+              :label="$t('Group Selector')"
+              single-line
+            ></v-select>
+
         </v-flex>
         <v-flex xs5 offset-xs1>
+
+          <h3 class="text-sm-left">{{$t('Project Status')}}</h3>
+
+          <v-radio-group v-model="model.status" row>
+            <v-radio :label="$t('Maintaining')" value="maintaining"></v-radio>
+            <v-radio :label="$t('Deprecated')" value="deprecated"></v-radio>
+            <v-radio :label="$t('Disabled')" value="disabled"></v-radio>
+          </v-radio-group>
 
           <v-radio-group v-model="model.scope">
             <v-radio :label="$t('Public')" value="public"></v-radio>
@@ -64,17 +82,6 @@
           </v-select>
 
         </v-card>
-      </v-flex>
-      <v-flex xs12>
-        <p class="text-sm-left">{{$t('Project List')}}</p>
-        <v-data-table :headers="project_titles" :items="projects" hide-actions>
-          <template slot="items" slot-scope="props">
-            <td>{{ props.item.name }}</td>
-            <td>{{ props.item.describe }}</td>
-            <td>{{ props.item.describe }}</td>
-            <td>{{ props.item.describe }}</td>
-          </template>
-        </v-data-table>
       </v-flex>
     </v-layout>
   </v-container>

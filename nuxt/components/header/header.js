@@ -29,8 +29,12 @@ export default {
         },
         logout: function() {
             this.$axios.$get("/user/logout.json").then(res => {
-                this.isLogin = false;
-                location = '/'
+                this.$store.commit("user/logout");
+                this.$store.dispatch("notify", {
+                    type: "warning",
+                    text: this.$t("Logout Success")
+                });
+                this.goHome();
             });
         }
     }

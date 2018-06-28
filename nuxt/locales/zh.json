@@ -1,9 +1,30 @@
 {
     "Login": "登录",
+    "Email": "邮箱",
+    "Nickname": "昵称",
     "Register": "注册",
     "Logout": "退出",
     "Password": "密码",
     "PasswordRepeat": "密码确认",
     "Username": "用户名",
-    "This field is required": "这是必填字段"
+    "This field is required": "这是必填字段",
+    "Maintaining": "使用中",
+    "Deprecated": "停止维护",
+    "Disabled": "禁用",
+    "Public": "公开",
+    "Private": "私有",
+    "public label": "任意浏览, 但只有有权限的成员才能修改",
+    "private label": "仅有权限的成员才能浏览/修改",
+    "Administrator": "管理员",
+    "Developer": "开发人员",
+    "group": {
+        "name": "组名称",
+        "describe": "组描述"
+    },
+    "project": {
+        "name": "项目名称",
+        "describe": "项目描述",
+        "creator": "创建者",
+        "created_at": "创建时间"
+    }
 }

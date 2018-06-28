@@ -8,15 +8,19 @@
                 <nuxt />
             </v-container>
         </v-content>
+        <Footer />
     </v-app>
 </template>
 
 <script>
-import { Header, Drawer, Notify } from "~/components";
+import { Header, Drawer, Notify, Footer } from "~/components";
 
 export default {
     components: {
-        Header, Drawer,Notify
+        Header,
+        Drawer,
+        Notify,
+        Footer
     }
-}
+};
 </script>

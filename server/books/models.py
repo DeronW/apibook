@@ -10,6 +10,10 @@ CONTENT_TYPES = [(x, x) for x in ('application/x-www-form-urlencoded',
 
 DATA_TYPES = [(x, x) for x in ('Number', 'String', 'Boolean', 'Empty')]
 
+PROJECT_STATUS = [(x, x) for x in ('maintaining', 'deprecated', 'disabled')]
+
+SCOPE_STATUS = [(x, x) for x in ('public', 'private')]
+
 
 class BaseModel(models.Model):
 
@@ -27,9 +31,20 @@ class BaseModel(models.Model):
 class Group(BaseModel):
     name = models.CharField(max_length=30)
     describe = models.CharField(max_length=80, blank=True)
+    scope = models.CharField(
+        max_length=30, choices=SCOPE_STATUS, default=SCOPE_STATUS[0][0])
 
     def __str__(self):
         return self.name
+
+    @property
+    def data(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'describe': self.describe,
+            'scope': self.scope
+        }
 
 
 class Project(BaseModel):
@@ -37,9 +52,24 @@ class Project(BaseModel):
     describe = models.CharField(max_length=60, blank=True)
     group = models.ForeignKey(
         'Group', blank=True, null=True, on_delete=models.SET_NULL)
+    status = models.CharField(
+        max_length=30, choices=PROJECT_STATUS, default=PROJECT_STATUS[0][0])
+    scope = models.CharField(
+        max_length=30, choices=SCOPE_STATUS, default=SCOPE_STATUS[0][0])
 
     def __str__(self):
         return self.name
+
+    @property
+    def data(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'describe': self.describe,
+            'scope': self.scope,
+            'status': self.status,
+            'group_id': self.group and self.group.id
+        }
 
 
 class Readme(models.Model):
@@ -58,6 +88,7 @@ class Module(BaseModel):
     def __str__(self):
         return '%s - %s' % (self.base_url or '""', self.name)
 
+
 class ApiEntry(BaseModel):
     method = models.CharField(max_length=20, choices=METHODS)
     path = models.CharField(max_length=400)
@@ -68,6 +99,7 @@ class ApiEntry(BaseModel):
 
     def __str__(self):
         return '%s:%s' % (self.method, self.path)
+
 
 class ApiRequest(BaseModel):
     entry = models.ForeignKey('ApiEntry', null=True, on_delete=models.SET_NULL)
@@ -106,12 +138,14 @@ class ApiResponseField(BaseModel):
                               on_delete=models.SET_NULL)
     nodes = models.CharField(max_length=2000)
 
+
 class GlobaConfig(models.Model):
     base_url = models.CharField(blank=True, null=True, max_length=100)
 
     def save(self):
         if self.pk is not None:
-            raise Exception('GlobalConfig should be singleton, and we have already have one')
+            raise Exception(
+                'GlobalConfig should be singleton, and we have already have one')
         else:
             self.pk = 1
             self.save()

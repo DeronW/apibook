@@ -2,7 +2,7 @@
 <i18n>
 {
     "zh": {
-        "New Group": "创建组",
+        "New Group": "创建组织",
         "New Project": "创建项目"
     }
 }
@@ -14,18 +14,21 @@
         <v-text-field solo-inverted flat label="Search" prepend-icon="search"></v-text-field>
         <v-spacer></v-spacer>
 
-        <v-menu :nudge-width="100" v-if="user.isLogin">
+        <v-menu open-on-hover bottom v-if="user.isLogin">
             <v-toolbar-title slot="activator">
-                <v-btn icon>
+                <v-btn icon class="mr-4">
                     <v-icon>add</v-icon>
                 </v-btn>
             </v-toolbar-title>
             <v-list>
                 <v-list-tile>
-                    <nuxt-link to="/groups/new">{{ $t('New Group')}}</nuxt-link>
+                    <v-btn flat small nuxt to="/groups/new" color="primary"> {{ $t('New Group')}} </v-btn>
                 </v-list-tile>
+                <!-- <v-list-tile>
+                    <nuxt-link to="/groups/new">{{ $t('New Group')}}</nuxt-link>
+                </v-list-tile> -->
                 <v-list-tile>
-                    <nuxt-link to="/projects/new">{{ $t('New Project')}}</nuxt-link>
+                    <v-btn flat small nuxt to="/projects/new" color="primary">{{ $t('New Project')}}</v-btn>
                 </v-list-tile>
             </v-list>
         </v-menu>
