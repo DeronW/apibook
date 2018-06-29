@@ -17,6 +17,7 @@
     "private label": "仅有权限的成员才能浏览/修改",
     "Administrator": "管理员",
     "Developer": "开发人员",
+    "Members": "成员",
     "group": {
         "name": "组名称",
         "describe": "组描述"

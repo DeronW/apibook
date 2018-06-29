@@ -39,23 +39,22 @@
     </v-form>
     <br />
     <v-layout row wrap>
-      <v-flex xs12>
-        <v-card>
-          <v-card-text>{{$t('Developer')}}</v-card-text>
-          <v-select v-model="model.members" :label="$t('input name')"
-              :items="model.members"
-              @change="memberChange"
-              chips tags solo
-              >
-            <template slot="selection" slot-scope="data">
-              <v-chip :selected="data.selected" :close="!disabled" outline color="blue" @input="removeReader(data.item)">
-                <strong>{{ data.item }}</strong>
-              </v-chip>
-            </template>
-          </v-select>
 
-        </v-card>
+      <v-flex xs12>
+        <h2>{{$t('Members')}}</h2>
       </v-flex>
+
+        <template v-for="(m, index) in model.members">
+            <v-flex v-bind:key="index">
+                <v-alert value="true" outline dismissible> {{m}} </v-alert>
+            </v-flex>
+        </template>
+
+        <v-flex xs3 v-bind:key="index" class="text-sm-left">
+            <input />
+                <v-icon color="green">add</v-icon>
+        </v-flex>
+
       <v-flex xs12 v-if="projects.length">
         <p class="text-sm-left">{{$t('Project List')}}</p>
         <v-data-table :headers="project_titles" :items="projects" hide-actions>
