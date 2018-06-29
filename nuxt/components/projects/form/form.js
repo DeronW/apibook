@@ -11,8 +11,7 @@ export default {
                 status: "maintaining",
                 group_id: "",
 
-                adminstrators: ["Programming", "2", "Watching", "4"],
-                readers: ["1", "Playing video games", "3", "Sleeping"]
+                members: ["1", "Playing video games", "3", "Sleeping"]
             }
         };
     },
@@ -75,13 +74,9 @@ export default {
                     });
                 });
         },
-        removeAdministrator(name) {
-            this.adminstrators.splice(this.adminstrators.indexOf(name), 1);
-            this.adminstrators = [...this.adminstrators];
-        },
-        removeReader(name) {
-            this.readers.splice(this.readers.indexOf(name), 1);
-            this.readers = [...this.readers];
+        removeMember(name) {
+            this.members.splice(this.members.indexOf(name), 1);
+            this.members = [...this.members];
         }
     }
 };

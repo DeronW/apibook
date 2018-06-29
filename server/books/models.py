@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.utils.translation import gettext as _
 
 METHODS = [(x, x) for x in ('GET', 'POST', 'PUT', 'DELETE')]
@@ -33,6 +35,8 @@ class Group(BaseModel):
     describe = models.CharField(max_length=80, blank=True)
     scope = models.CharField(
         max_length=30, choices=SCOPE_STATUS, default=SCOPE_STATUS[0][0])
+    member = models.ManyToManyField(User, related_name='group_members')
+    favorite = models.ManyToManyField(User, related_name='group_favorites')
 
     def __str__(self):
         return self.name
@@ -43,7 +47,9 @@ class Group(BaseModel):
             'id': self.id,
             'name': self.name,
             'describe': self.describe,
-            'scope': self.scope
+            'scope': self.scope,
+            'members': [{'username': x.username, 'id': x.id} for x in self.member.all()],
+            'projects': []
         }
 
 
@@ -56,6 +62,8 @@ class Project(BaseModel):
         max_length=30, choices=PROJECT_STATUS, default=PROJECT_STATUS[0][0])
     scope = models.CharField(
         max_length=30, choices=SCOPE_STATUS, default=SCOPE_STATUS[0][0])
+    member = models.ManyToManyField(User, related_name='project_members')
+    favorite = models.ManyToManyField(User, related_name='project_favorites')
 
     def __str__(self):
         return self.name

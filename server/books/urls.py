@@ -14,6 +14,7 @@ groups = [
     path('create.json', group.create),
     path('update.json', group.update),
     path('list.json', group.list),
+    path('favorite.json', group.favorite),
     path('info.json', group.info)
 ]
 

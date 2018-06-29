@@ -10,6 +10,7 @@
         "field type": "字段类型",
         "field required": "必填",
         "field placeholder": "参数举例",
+        "field example": "返回举例",
         "Deprecated": "标记废弃"
     }
 }
@@ -44,7 +45,7 @@
                     ></v-select>
                 </v-flex>
                 <template v-for="(field, name) in model.request.fields">
-                    <v-layout v-bind:key="name">
+                    <v-layout v-bind:key="name" style="height: auto;">
                         <v-flex xs3>
                             <v-text-field :label="$t('field name')" :value="name"></v-text-field>
                         </v-flex>
@@ -70,13 +71,33 @@
 
             <v-divider></v-divider>
 
-            <v-flex xs12><h4>Response</h4></v-flex>
+            <v-flex xs12>
+                <h4>Response</h4>
+                <v-select
+                v-model="model.response.contentType"
+                :items="['application/json', 'plaintext']"
+                ></v-select>
+                
+                <template v-for="(field, name) in model.response.fields">
+                    <v-layout v-bind:key="name" style="height: auto;">
+                        <v-flex xs3>
+                            <v-text-field :label="$t('field name')" :value="name"></v-text-field>
+                        </v-flex>
+                        <v-flex xs2>
+                            <v-select
+                            v-model="field.type"
+                            :label="$t('field type')"
+                            :items="['String', 'Number', 'Array', 'Object']"
+                            ></v-select>
+                        </v-flex>
+                        <v-flex xs4>
+                           <v-text-field :label="$t('field example')" :value="field.placeholder"></v-text-field>
+                        </v-flex>
+                    </v-layout>
+                </template>
+            </v-flex>
 
             <v-divider></v-divider>
-
-            <v-card>
-                curl -X POST /sdfsdf
-            </v-card>
 
             <v-flex xs12>
                 <v-checkbox

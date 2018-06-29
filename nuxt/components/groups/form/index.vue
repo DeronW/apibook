@@ -41,23 +41,14 @@
     <v-layout row wrap>
       <v-flex xs12>
         <v-card>
-          <v-card-text>{{$t('Administrator')}}</v-card-text>
-          <v-select v-model="model.adminstrators" :label="$t('input name')" chips tags solo>
-            <template slot="selection" slot-scope="data">
-              <v-chip :selected="data.selected" :close="!disabled" outline color="primary" @input="removeAdministrator(data.item)">
-                <strong>{{ data.item }}</strong>
-              </v-chip>
-            </template>
-          </v-select>
-
-        </v-card>
-      </v-flex>
-      <v-flex xs12>
-        <v-card>
           <v-card-text>{{$t('Developer')}}</v-card-text>
-          <v-select v-model="model.readers" :label="$t('input name')" chips tags solo>
+          <v-select v-model="model.members" :label="$t('input name')"
+              :items="model.members"
+              @change="memberChange"
+              chips tags solo
+              >
             <template slot="selection" slot-scope="data">
-              <v-chip :selected="data.selected" :close="!disabled" outline color="blue-grey lighten-1" @input="removeReader(data.item)">
+              <v-chip :selected="data.selected" :close="!disabled" outline color="blue" @input="removeReader(data.item)">
                 <strong>{{ data.item }}</strong>
               </v-chip>
             </template>
@@ -65,7 +56,7 @@
 
         </v-card>
       </v-flex>
-      <v-flex xs12>
+      <v-flex xs12 v-if="projects.length">
         <p class="text-sm-left">{{$t('Project List')}}</p>
         <v-data-table :headers="project_titles" :items="projects" hide-actions>
           <template slot="items" slot-scope="props">

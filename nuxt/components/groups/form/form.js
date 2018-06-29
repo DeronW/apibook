@@ -9,20 +9,12 @@ export default {
                 { text: this.$t("project.creator"), sortable: false },
                 { text: this.$t("project.created_at"), sortable: false }
             ],
-            projects: [
-                {
-                    avatar: "...",
-                    name: "t",
-                    describe: "d"
-                }
-            ],
+            projects: [],
             model: {
                 name: "",
                 describe: "",
                 scope: "public",
-
-                adminstrators: ["Programming", "2", "Watching", "4"],
-                readers: ["1", "Playing video games", "3", "Sleeping"]
+                members: []
             }
         };
     },
@@ -32,6 +24,8 @@ export default {
                 this.model.name = data.name;
                 this.model.describe = data.describe;
                 this.model.scope = data.scope;
+                this.model.members = data.members.map(i => i.username);
+                this.projects = data.projects;
             });
         }
     },
@@ -39,6 +33,9 @@ export default {
         submit() {
             if (!this.$refs.form.validate()) return;
             this.id ? this.updateGroup() : this.createGroup();
+        },
+        memberChange(e){
+            console.log(1111,e)
         },
         createGroup() {
             this.$axios

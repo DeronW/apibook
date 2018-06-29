@@ -52,12 +52,35 @@ def info(request):
     id = request.GET.get('id')
     group = Group.objects.filter(id=id)[0]
     if group:
-        return JsonResponse({'success': True, 'data': group.data})
+        data = group.data
+        data['projects'] = [x.data for x in group.project_set.all()]
+        return JsonResponse({'success': True, 'data': data})
     else:
         return JsonResponse({'success': False, 'message': 'Group id:%s not exist' % id})
 
 
 @need_login
 def list(request):
-    groups = Group.objects.filter()
-    return JsonResponse({'success': True, 'data': [x.data for x in groups]})
+
+    user = request.user
+    favorite_groups = user.group_favorites.all()
+    favorite_group_ids = [x.id for x in favorite_groups]
+
+    groups = Group.objects.all()
+    groups = [x.data for x in groups]
+    for i in groups:
+        if favorite_group_ids.count(i.get('id')):
+            i['star'] = True
+    return JsonResponse({'success': True, 'data': groups})
+
+
+@need_login
+def favorite(request):
+    gid = request.json.get('id')
+    cancel = request.json.get('action') == 'cancel'
+    group = Group.objects.get(id=gid)
+    if cancel:
+        group.favorite.remove(request.user)
+    else:
+        group.favorite.add(request.user)
+    return JsonResponse({'success': True})

@@ -4,6 +4,7 @@ export default {
             model: {
                 path: "",
                 select: "GET",
+                id: "",
                 request: {
                     contentType: "application/json",
                     fields: {
@@ -24,12 +25,20 @@ export default {
                     }
                 },
                 response: {
-                    contentType: "application/json",
+                    contentType: "plaintext",
                     fields: {
                         name: {
                             type: "String",
                             label: "real name",
                             optional: false
+                        },
+                        age: {
+                            type: "Number",
+                            label: "how old are you"
+                        },
+                        gender: {
+                            type: "String",
+                            choices: ["male", "female"]
                         }
                     }
                 },
@@ -43,7 +52,7 @@ export default {
 
     methods: {
         submit() {
-            console.log(1111);
+            this.$axios.$post('/api/create.json')
         },
         remove() {
             this.model.removed = true;

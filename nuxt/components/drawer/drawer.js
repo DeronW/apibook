@@ -9,7 +9,15 @@ export default {
     },
     mounted() {
         this.$axios.$get("/group/list.json").then(data => {
-            this.groups = data.map(i => ({ name: i.name, id: i.id }));
+            let groups = [];
+            data.forEach(i => {
+                if (i.star)
+                    groups.push({
+                        name: i.name,
+                        id: i.id
+                    });
+            });
+            this.groups = groups;
         });
         this.$axios.$get("/project/list.json").then(data => {
             this.projects = data.map(i => ({ name: i.name, id: i.id }));

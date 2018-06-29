@@ -14,7 +14,7 @@
     <v-list dense class="grey lighten-4">
         <ListTitle icon="star_border" :text="$t('Favorites Projects')" />
 
-        <v-list-tile v-for="i in projects" v-bind:key="i.id" 
+        <v-list-tile v-for="i in projects" v-bind:key="i.id"  class="pl-5"
             @click="link(`/projects/${i.id}`)">
             {{i.name}}
         </v-list-tile>
@@ -22,7 +22,7 @@
         <v-divider dark class="my-3"></v-divider>
 
         <ListTitle icon="star_border" :text="$t('Favorites Groups')" />
-        <v-list-tile v-for="i in groups" v-bind:key="i.id"
+        <v-list-tile v-for="i in groups" v-bind:key="i.id"  class="pl-5"
             @click="link(`/groups/${i.id}`)">
             {{i.name}}
         </v-list-tile>
