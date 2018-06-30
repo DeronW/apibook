@@ -105,6 +105,15 @@ def update(request):
             'text': _('Permission deny')
         }})
 
+def list(request):
+    users = User.objects.all()
+    data = [{
+        'id': u.id,
+        'username': u.username,
+        'email': u.email,
+        'admin': u.is_superuser
+    } for u in users]
+    return JsonResponse({'success': True, 'data': data})
 
 def get_user_info(user):
 

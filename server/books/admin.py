@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from books.models import (
-    Group, Project, Module, ApiEntry, ApiRequest, ApiResponse, ApiRequestField, ApiResponseField
-)
+from books.models import *
 
 admin.site.register(Group)
 admin.site.register(Project)

@@ -5,6 +5,7 @@ from .views import group, project, user, index, config
 
 users = [
     path('info.json', user.info),
+    path('list.json', user.list),
     path('update.json', user.update),
     path('register.json', user.register),
     path('login.json', user.login_user),

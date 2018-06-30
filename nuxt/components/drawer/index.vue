@@ -4,11 +4,11 @@
     "zh": {
         "Settings": "设置",
         "Favorite Projects": "收藏项目",
-        "Favorite Groups": "收藏组",
+        "Favorite Groups": "收藏群组",
         "Help": "帮助",
         "Global Settings": "全局设置",
         "User Settings": "个人设置",
-        "All Groups": "查看全部组",
+        "All Groups": "查看全部群组",
         "All Projects": "查看全部项目"
     }
 }
@@ -45,7 +45,11 @@
             {{$t('Global Settings')}}
         </v-list-tile>
         <v-list-tile class="pl-5"
-            @click="link('/user')">
+            @click="link('/users')">
+            {{$t('Users Management')}}
+        </v-list-tile>
+        <v-list-tile class="pl-5"
+            @click="link('/users/' + $store.state.user.id)">
             {{$t('User Settings')}}
         </v-list-tile>
 

@@ -5,7 +5,7 @@
         "Project Status": "项目状态",
         "Submit": "保存",
         "input name": "输入用户名, 然后回车",
-        "Group Selector": "选择组",
+        "Group Selector": "选择群组",
         "Project List": "项目列表"
     },
     "en": {

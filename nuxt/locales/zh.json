@@ -18,8 +18,8 @@
     "Developer": "开发人员",
     "Members": "成员",
     "group": {
-        "name": "组名称",
-        "describe": "组描述"
+        "name": "群组名称",
+        "describe": "群组描述"
     },
     "project": {
         "name": "项目名称",

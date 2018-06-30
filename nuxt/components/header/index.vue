@@ -2,7 +2,7 @@
 <i18n>
 {
     "zh": {
-        "New Group": "创建组织",
+        "New Group": "创建群组",
         "New Project": "创建项目",
         "Logout": "退出",
         "Login": "登录",

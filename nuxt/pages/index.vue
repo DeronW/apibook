@@ -3,7 +3,7 @@
 {
     "zh": {
         "Welcome to API Book": "欢迎使用API Book",
-        "Groups": "组列表",
+        "Groups": "群组列表",
         "Projects": "项目列表"
     }
 }

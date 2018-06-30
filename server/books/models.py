@@ -18,6 +18,16 @@ PROJECT_STATUS = [(x, x) for x in ('maintaining', 'deprecated', 'disabled')]
 SCOPE_STATUS = [(x, x) for x in ('public', 'private')]
 
 
+# from django.contrib.auth.models import AbstractUser
+
+class UserExtra(models.Model):
+    user = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.SET_NULL)
+    blockd = models.DateTimeField(blank=True)
+    blocked_at = models.DateTimeField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+
+
 class BaseModel(models.Model):
 
     id = models.AutoField(primary_key=True)

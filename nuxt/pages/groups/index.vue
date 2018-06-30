@@ -3,7 +3,7 @@
     "zh": {
         "Like it": "收藏成功",
         "Unlike it": "取消收藏",
-        "Group": "组织"
+        "Group": "群组"
     }
 }
 </i18n>
