@@ -9,7 +9,7 @@ module.exports = {
         meta: [{ charset: "utf-8" }]
     },
     css: [],
-    plugins: ["~/plugins/i18n.js", "~/plugins/define.js", "~/plugins/axios.js"],
+    plugins: ["~/plugins/i18n.js", "~/plugins/dayjs.js", "~/plugins/axios.js"],
     build: {
         // analyze: true,
         extractCSS: true,

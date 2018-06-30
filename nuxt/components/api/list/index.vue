@@ -7,7 +7,7 @@
     }
 }
 </i18n>
-
+¸
 <template>
   <v-card>
     <v-card-title>

@@ -4,7 +4,8 @@
     "zh": {
         "Submit": "保存",
         "input name": "输入用户名, 然后回车",
-        "Project List": "项目列表"
+        "Project List": "项目列表",
+        "Email or Username": "用户名或邮箱"
     },
     "en": {
         "input name": "Input username and press Enter"
@@ -20,7 +21,7 @@
         <v-flex xs5 offset-xs1>
           <v-text-field v-model="model.name" :label="$t('group.name')" required>
           </v-text-field>
-          <v-text-field v-model="model.describe" :label="$t('group.describe')" multi-line></v-text-field>
+          <v-textarea v-model="model.describe" :label="$t('group.describe')"></v-textarea>
         </v-flex>
         <v-flex xs5 offset-xs1>
 
@@ -44,16 +45,26 @@
         <h2>{{$t('Members')}}</h2>
       </v-flex>
 
-        <template v-for="(m, index) in model.members">
-            <v-flex v-bind:key="index">
-                <v-alert value="true" outline dismissible> {{m}} </v-alert>
-            </v-flex>
-        </template>
-
-        <v-flex xs3 v-bind:key="index" class="text-sm-left">
-            <input />
-                <v-icon color="green">add</v-icon>
+      <template v-for="m in model.members">
+        <v-flex v-bind:key="m.id">
+          <v-alert v-model="m.show" outline dismissible>{{m.username}}</v-alert>
         </v-flex>
+      </template>
+
+      <!-- <v-flex xs3 v-bind:key="index" class="text-sm-left">
+        <input />
+        <v-icon color="green">add</v-icon>
+      </v-flex> -->
+
+      <v-flex xs6>
+        <v-text-field 
+        box 
+        clearable 
+        :label="$t('Email or Username')" 
+        type="text" 
+        @keyup.enter="addMember"
+        ></v-text-field>
+      </v-flex>
 
       <v-flex xs12 v-if="projects.length">
         <p class="text-sm-left">{{$t('Project List')}}</p>

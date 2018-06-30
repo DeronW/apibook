@@ -13,20 +13,15 @@ from books.models import Project, Group
 @need_login
 def create(request):
     data = request.json
-    group = Group.objects.filter(id=data.get('group_id'))[0]
-    if group is None:
-        return JsonResponse({
-            'success': False,
-            'message': 'Group id:%s does not exist' % data.get('group')
-        })
 
     project = Project.objects.create(
         name=data.get('name'),
         describe=data.get('describe'),
         status=data.get('status'),
-        scope=data.get('scope'),
-        group=group
+        scope=data.get('scope')
     )
+    if data.get('group_id'):
+        project.group = Group.objects.get(id=data.get('group_id'))
     project.save()
     if project.id:
         return JsonResponse({'success': True, 'data': {'id': project.id}})

@@ -1,6 +1,8 @@
 import Vue from "vue";
 
 import dayjs from "dayjs";
+import RelativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(RelativeTime)
 
 const Plugin = {
     install: function(Vue, options) {

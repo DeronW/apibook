@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.utils.translation import gettext as _
+import time
 
 METHODS = [(x, x) for x in ('GET', 'POST', 'PUT', 'DELETE')]
 
@@ -47,6 +48,7 @@ class Group(BaseModel):
             'id': self.id,
             'name': self.name,
             'describe': self.describe,
+            'updated_at': int(time.mktime(self.updated_at.timetuple())),
             'scope': self.scope,
             'members': [{'username': x.username, 'id': x.id} for x in self.member.all()],
             'projects': []
@@ -76,6 +78,7 @@ class Project(BaseModel):
             'describe': self.describe,
             'scope': self.scope,
             'status': self.status,
+            'updated_at': int(time.mktime(self.updated_at.timetuple())),
             'group_id': self.group and self.group.id
         }
 

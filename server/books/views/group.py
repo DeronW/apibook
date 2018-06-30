@@ -3,6 +3,7 @@ from django.utils.translation import gettext as _
 
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from books.decorators import need_login
 from IPython import embed
@@ -83,4 +84,23 @@ def favorite(request):
         group.favorite.remove(request.user)
     else:
         group.favorite.add(request.user)
+    return JsonResponse({'success': True})
+
+
+@need_login
+def add_member(request):
+    eu = request.json.get('email_or_username')
+    user = User.objects.filter(Q(email=eu) | Q(username=eu))[0]
+    if user:
+        group = Group.objects.get(id=request.json.get('id'))
+        group.member.add(user)
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False, 'message': 'User does not exist'})
+
+@need_login
+def remove_member(request):
+    user = User.objects.get(id=request.json.get('user_id'))
+    group = Group.objects.get(id=request.json.get('id'))
+    group.member.remove(user)
     return JsonResponse({'success': True})
