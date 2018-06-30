@@ -1,10 +1,11 @@
 
 from django.urls import path, include
 
-from .views import group, project, user, index
+from .views import group, project, user, index, config
 
 users = [
     path('info.json', user.info),
+    path('update.json', user.update),
     path('register.json', user.register),
     path('login.json', user.login_user),
     path('logout.json', user.logout_user),
@@ -27,8 +28,14 @@ projects = [
     path('info.json', project.info)
 ]
 
+configs = [
+    path('info.json', config.info),
+    path('update.json', config.update)
+]
+
 urlpatterns = [
     path('', index),
+    path('config/', include(configs)),
     path('project/', include(projects)),
     path('group/', include(groups)),
     path('user/', include(users))

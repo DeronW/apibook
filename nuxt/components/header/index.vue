@@ -3,14 +3,17 @@
 {
     "zh": {
         "New Group": "创建组织",
-        "New Project": "创建项目"
+        "New Project": "创建项目",
+        "Logout": "退出",
+        "Login": "登录",
+        "Register": "注册"
     }
 }
 </i18n>
 <template>
     <v-toolbar app absolute clipped-left>
         <v-toolbar-side-icon @click.native="toggleDrawer"></v-toolbar-side-icon>
-        <span class="title ml-3 mr-5" @click="goHome">API Books</span>
+        <span class="title ml-3 mr-5" @click="goHome" style="cursor: pointer">API Books</span>
         <v-text-field solo-inverted flat label="Search" prepend-icon="search"></v-text-field>
         <v-spacer></v-spacer>
 

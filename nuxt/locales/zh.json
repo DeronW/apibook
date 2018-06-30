@@ -1,9 +1,8 @@
 {
-    "Login": "登录",
+    "Success": "成功",
     "Email": "邮箱",
+    "Submit": "提交",
     "Nickname": "昵称",
-    "Register": "注册",
-    "Logout": "退出",
     "Password": "密码",
     "PasswordRepeat": "密码确认",
     "Username": "用户名",

@@ -150,13 +150,23 @@ class ApiResponseField(BaseModel):
     nodes = models.CharField(max_length=2000)
 
 
-class GlobaConfig(models.Model):
+class GlobalConfig(models.Model):
     base_url = models.CharField(blank=True, null=True, max_length=100)
+    allow_register = models.BooleanField(default=True)
+    need_login = models.BooleanField(default=True)
 
-    def save(self):
-        if self.pk is not None:
-            raise Exception(
-                'GlobalConfig should be singleton, and we have already have one')
-        else:
-            self.pk = 1
-            self.save()
+    @property
+    def data(self):
+        return {
+            'base_url': self.base_url,
+            'allow_register': self.allow_register,
+            'need_login': self.need_login
+        }
+
+    # def save(self):
+    #     if self.pk is not None:
+    #         raise Exception(
+    #             'GlobalConfig should be singleton, and we have already have one')
+    #     else:
+    #         self.pk = 1
+    #         self.save()

@@ -20,7 +20,7 @@ export const mutations = {
             state.message = {
                 show: true,
                 type: msg.type || "info",
-                text: msg.text
+                text: msg.text || msg
             };
         } else {
             state.message.show = false;
@@ -34,6 +34,6 @@ export const actions = {
     notify({ commit }, msg) {
         commit("NOTIFY", msg);
         clearTimeout(timer);
-        timer = setTimeout(() => commit("NOTIFY", null), 3500);
+        timer = setTimeout(() => commit("NOTIFY", null), 3000);
     }
 };

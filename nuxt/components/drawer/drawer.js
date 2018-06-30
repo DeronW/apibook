@@ -1,27 +1,9 @@
 import ListTitle from "./list-title.vue";
 
 export default {
-    data() {
-        return {
-            projects: [],
-            groups: []
-        };
-    },
     mounted() {
-        this.$axios.$get("/group/list.json").then(data => {
-            let groups = [];
-            data.forEach(i => {
-                if (i.star)
-                    groups.push({
-                        name: i.name,
-                        id: i.id
-                    });
-            });
-            this.groups = groups;
-        });
-        this.$axios.$get("/project/list.json").then(data => {
-            this.projects = data.map(i => ({ name: i.name, id: i.id }));
-        });
+        this.$store.dispatch("group/refreshList");
+        this.$store.dispatch("project/refreshList");
     },
     computed: {
         drawer: {
@@ -29,6 +11,12 @@ export default {
                 return this.$store.state.drawer;
             },
             set: () => null
+        },
+        projects() {
+            return this.$store.state.project.list;
+        },
+        groups() {
+            return this.$store.state.group.list;
         }
     },
     methods: {

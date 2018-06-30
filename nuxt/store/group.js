@@ -9,9 +9,10 @@ export const mutations = {
 };
 
 export const actions = {
-    refreshList({ commit }) {
-        this.$axios.$get("/group/list.json").then(data => {
-            commit("refreshList", data);
-        });
+    refreshList({ commit, state }, force) {
+        if (force || state.list.length === 0)
+            this.$axios.$get("/group/list.json").then(data => {
+                commit("refreshList", data);
+            });
     }
 };

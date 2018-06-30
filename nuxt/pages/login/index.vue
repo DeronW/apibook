@@ -15,7 +15,7 @@
             <v-text-field v-model="username_or_email" :label="$t('Name or Email')" :rules="fieldRules" required></v-text-field>
             <v-text-field v-model="password" :label="$t('Password')"  
             :append-icon="showPwd ? 'visibility' : 'visibility_off'"
-            :append-icon-cb="() => (showPwd = !showPwd)"
+            @click:append="() => (showPwd = !showPwd)"
             :type="showPwd ? 'text' : 'password'"
             :rules="fieldRules" required></v-text-field>
 

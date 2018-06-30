@@ -1,14 +1,23 @@
-from django.views.decorators.http import require_http_methods
-from django.contrib.auth.decorators import login_required
 
 from django.http import JsonResponse
+from books.decorators import need_login
+
+from books.models import GlobalConfig
 
 
-@login_required
-@require_http_methods(["GET", "POST"])
-def settings(request):
-    if request.method == 'GET':
-        gcs = GlobaConfig.objects.all()
-        return JsonResponse({base_url: gcs[0].base_url})
-    else:
-        return JsonResponse({})
+@need_login
+def info(request):
+    conf = GlobalConfig.objects.first()
+    if conf is None:
+        conf = GlobalConfig.objects.create()
+    return JsonResponse({'success': True, 'data': conf.data})
+
+@need_login
+def update(request):
+    data = request.json
+    conf = GlobalConfig.objects.first()
+    conf.base_url = data.get('base_url')
+    conf.allow_register = data.get('allow_register')
+    conf.need_login = data.get('need_login')
+    conf.save()
+    return JsonResponse({'success': True})

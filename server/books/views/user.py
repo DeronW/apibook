@@ -22,10 +22,10 @@ def register(request):
             'text': text
         }})
 
-    if User.objects.filter(username=username)[0]:
+    if User.objects.filter(username=username):
         return err(_('username already exist'))
 
-    if User.objects.filter(email=email)[0]:
+    if User.objects.filter(email=email):
         return err(_('emali already exist'))
 
     user = User.objects.create_user(username, email, pwd)
@@ -40,8 +40,8 @@ def login_user(request):
     username_or_email = request.json.get('username_or_email')
     pwd = request.json.get('password')
 
-    real_user = User.objects.filter(email=username_or_email)[0]
-    username = real_user.username if real_user else username_or_email
+    email_user = User.objects.filter(email=username_or_email)
+    username = email_user[0].username if email_user else username_or_email
 
     user = authenticate(request, username=username, password=pwd)
 
@@ -63,14 +63,54 @@ def logout_user(request):
     return JsonResponse({'success': True, 'message': 'Logout Success'})
 
 
+@need_login
 def info(request):
-    return JsonResponse({'data': get_user_info(request.user)})
+    user = None
+    if request.json.get('id'):
+        user = User.objects.get(id=request.json.get('id'))
+        if not request.user.is_superuser and user != request.user:
+            user = None
+    else:
+        user = request.user
+
+    if user:
+        return JsonResponse({'data': get_user_info(user)})
+    else:
+        return JsonResponse({'success': False, 'message': {
+            'type': 'error',
+            'text': _('Permission deny')
+        }})
+
+@need_login
+def update(request):
+    data = request.json
+    user = None
+
+    if request.json.get('id'):
+        user = User.objects.get(id=request.json.get('id'))
+        if not request.user.is_superuser and user != request.user:
+            user = None
+    else:
+        user = request.user
+
+    if user:
+        user.username = data.get('username')
+        if data.get('password'):
+            user.set_password(data.get('password'))
+        user.save()
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False, 'message': {
+            'type': 'error',
+            'text': _('Permission deny')
+        }})
 
 
 def get_user_info(user):
 
     return {
         'username': user.username,
+        'email': user.email,
         'id': user.id,
         'isAdmin': user.is_superuser
     } if user.is_authenticated else {
