@@ -17,6 +17,7 @@
     "Administrator": "管理员",
     "Developer": "开发人员",
     "Members": "成员",
+    "Cancel": "取消",
     "group": {
         "name": "群组名称",
         "describe": "群组描述"

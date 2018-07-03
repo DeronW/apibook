@@ -1,5 +1,7 @@
 <template>
-    <ProjectForm :id="id"/>
+<v-layout>
+    sdf
+</v-layout>
 </template>
 
 <script>

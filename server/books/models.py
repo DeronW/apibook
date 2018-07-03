@@ -101,16 +101,26 @@ class Readme(models.Model):
 
 class Module(BaseModel):
     name = models.CharField(max_length=30)
-    describe = models.CharField(max_length=60, blank=True, default='')
-    base_url = models.CharField(max_length=30, blank=True, default='')
+    prefix = models.CharField(max_length=30, blank=True, default='')
+    deprecated = models.BooleanField(default=False)
     project = models.ForeignKey(
         'Project', null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return '%s - %s' % (self.base_url or '""', self.name)
+        return '%s - %s' % (self.prefix or '""', self.name)
+
+    @property
+    def data(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'deprecated': self.deprecated,
+            'prefix': self.prefix
+        }
 
 
 class ApiEntry(BaseModel):
+    describe = models.CharField(max_length=60, blank=True, default='')
     method = models.CharField(max_length=20, choices=METHODS)
     path = models.CharField(max_length=400)
     deprecated = models.BooleanField(default=False)
@@ -120,6 +130,14 @@ class ApiEntry(BaseModel):
 
     def __str__(self):
         return '%s:%s' % (self.method, self.path)
+
+    @property
+    def data(self):
+        return {
+            'method': self.method,
+            'path': self.path,
+            'deprecated': self.deprecated
+        }
 
 
 class ApiRequest(BaseModel):

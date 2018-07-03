@@ -9,7 +9,10 @@
         "Global Settings": "全局设置",
         "User Settings": "个人设置",
         "All Groups": "查看全部群组",
-        "All Projects": "查看全部项目"
+        "All Projects": "查看全部项目",
+        "Users Management": "用户管理",
+        "Documents": "文档",
+        "Donate": "捐助"
     }
 }
 </i18n>
@@ -63,7 +66,6 @@
         <v-list-tile class="pl-5" nuxt to="https://github.com/DeronW/apibook">
             {{$t('Donate')}}
         </v-list-tile>
-
 
     </v-list>
   </v-navigation-drawer>

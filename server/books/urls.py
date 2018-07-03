@@ -1,7 +1,7 @@
 
 from django.urls import path, include
 
-from .views import group, project, user, index, config
+from .views import group, project, module, user, index, config
 
 users = [
     path('info.json', user.info),
@@ -25,8 +25,17 @@ groups = [
 projects = [
     path('create.json', project.create),
     # path('update.json', project.update),
+    path('favorite.json', project.favorite),
     path('list.json', project.list),
+    path('apis.json', project.apis),
+    path('modules.json', project.modules),
     path('info.json', project.info)
+]
+
+modules = [
+    path('create.json', module.create),
+    path('update.json', module.update),
+    path('info.json', module.info)
 ]
 
 configs = [
@@ -38,6 +47,7 @@ urlpatterns = [
     path('', index),
     path('config/', include(configs)),
     path('project/', include(projects)),
+    path('module/', include(modules)),
     path('group/', include(groups)),
     path('user/', include(users))
 ]

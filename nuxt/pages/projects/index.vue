@@ -1,23 +1,20 @@
 <i18n>
 {
     "zh": {
-        "Like it": "收藏成功",
-        "Unlike it": "取消收藏",
-        "Group": "群组"
+        "Project List": "项目列表"
     }
 }
 </i18n>
-
 <template>
   <v-layout row>
     <v-flex sm10 offset-sm1>
       <v-card>
         <v-list>
-          <v-list-tile v-for="item in groups" :key="item.title" avatar @click="empty">
+          <v-list-tile v-for="item in projects" :key="item.title" avatar @click="empty">
             <v-list-tile-action @click="toggleStar(item.id)">
                 <v-icon :color="item.star ? 'orange' : 'gray'">{{ item.star ? 'star' : 'star_border'}}</v-icon>
             </v-list-tile-action>
-            <v-list-tile-content @click="link(`/groups/${item.id}`)">
+            <v-list-tile-content @click="link(`/projects/${item.id}`)">
                 <v-list-tile-title v-text="item.name"></v-list-tile-title>
                 <v-list-tile-sub-title>{{ item.describe }}</v-list-tile-sub-title>
             </v-list-tile-content>
@@ -32,11 +29,13 @@
 export default {
     head() {
         return {
-            title: this.$t("Group")
+            title: this.$t("Project List")
         };
     },
     data() {
-        return { groups: [] };
+        return {
+            projects: []
+        };
     },
     methods: {
         empty: function() {},
@@ -44,10 +43,10 @@ export default {
             this.$router.push(path);
         },
         toggleStar: function(projectId) {
-            let groups = this.groups,
+            let projects = this.projects,
                 cancel = false;
 
-            this.groups = groups.map(i => {
+            this.projects = projects.map(i => {
                 if (i.id == projectId) {
                     if (i.star) cancel = true;
                     i.star = !i.star;
@@ -56,7 +55,7 @@ export default {
             });
 
             this.$axios
-                .$post("/group/favorite.json", {
+                .$post("/project/favorite.json", {
                     id: projectId,
                     action: cancel ? "cancel" : "collect"
                 })
@@ -69,8 +68,8 @@ export default {
         }
     },
     mounted() {
-        this.$axios.$get("/group/list.json").then(data => {
-            this.groups = data;
+        this.$axios.$get("/project/list.json").then(data => {
+            this.projects = data;
         });
     }
 };

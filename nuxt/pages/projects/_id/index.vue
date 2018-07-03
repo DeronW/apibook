@@ -1,14 +1,14 @@
-<script src="./_id.js"></script>
+<script src="./index.js"></script>
 
 <template>
     <v-container>
         <v-layout>
-            <v-flex xs4>
+            <v-flex xs12>
                 <ApiList />
             </v-flex>
-            <v-flex xs8>
+            <!-- <v-flex xs8>
                 <ApiForm />
-            </v-flex>
+            </v-flex> -->
         </v-layout>
     </v-container>
 </template>
