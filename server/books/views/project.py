@@ -92,7 +92,7 @@ def modules(request):
         d = i.data
         d['apis'] = [x.data for x in api_list]
         modeuls_data.append(d)
-    sorted(modeuls_data, key=lambda x: x.get('prefix'))
+    modeuls_data = sorted(modeuls_data, key=lambda x: x.get('prefix'))
     return Success(modeuls_data)
 
 
