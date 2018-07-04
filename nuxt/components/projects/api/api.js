@@ -1,8 +1,13 @@
+// import ApiForm from '~/components/api/form'
+
 export default {
     props: {
         projectId: Number,
         ApiId: Number,
         close: Function
+    },
+    components: {
+        // ApiForm
     },
     data() {
         return {
@@ -40,15 +45,23 @@ export default {
     },
 
     mounted() {
-        console.log(this, this.projectId)
         this.$axios
             .$get("/project/modules.json?id=" + this.projectId)
             .then(data => {
-                this.modules = data;
+                this.modules = [{ id: null, name: "--", prefix: " " }, ...data];
             });
     },
 
-    computed: {},
+    computed: {
+        prefix: function() {
+            if (this.model.module)
+                for (let i = 0; i < this.modules.length; i++) {
+                    if (this.modules[i].id == this.model.module)
+                        return this.modules[i].prefix;
+                }
+            return "";
+        }
+    },
 
     methods: {
         submit() {

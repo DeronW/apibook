@@ -11,7 +11,11 @@
         "field required": "必填",
         "field placeholder": "参数举例",
         "field example": "返回举例",
-        "Deprecated": "标记废弃"
+        "Deprecated": "标记废弃",
+        "Parameters": "请求参数",
+        "Request URL": "请求地址"
+    },
+    "en": {
     }
 }
 </i18n>
@@ -19,13 +23,25 @@
 <template>
     <v-container>
         <v-layout row wrap>
-            <v-flex xs3>
+            <v-flex xs12>
+                <h3>{{$t('Request URL')}}</h3>
+            </v-flex>
+            <v-flex xs2>
+                <v-select
+                v-model="model.module"
+                :items="modules"
+                ></v-select>
+            </v-flex>
+            <v-flex xs2>
                 <v-select
                 v-model="model.select"
                 :items="['GET', 'POST', 'PUT', 'DELETE']"
                 ></v-select>
             </v-flex>
-            <v-flex xs9>
+            <v-flex xs2>
+                <v-text-field v-model="model.path" diabled ></v-text-field>
+            </v-flex>
+            <v-flex xs6>
                 <v-text-field
                     v-model="model.path"
                     :label="$t('Path')"
@@ -36,7 +52,7 @@
             <v-divider></v-divider>
 
             <v-flex xs12>
-                <h4>Request</h4>
+                <h3>{{$t('Parameters')}}</h3>
                 
                 <v-flex xs3>
                     <v-select
@@ -72,7 +88,7 @@
             <v-divider></v-divider>
 
             <v-flex xs12>
-                <h4>Response</h4>
+                <h2>Response Data</h2>
                 <v-select
                 v-model="model.response.contentType"
                 :items="['application/json', 'plaintext']"
