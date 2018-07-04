@@ -5,22 +5,18 @@
         "New API": "新增API",
         "Edit API": "编辑API",
 
-        "Path": "路径",
-        "Module": "模块",
-        "Method": "方法",
-        "Prefix": "前缀",
-        "Submit": "保存",
-        "Remove": "删除",
         "Regain": "恢复",
         "field name": "字段名",
         "field type": "字段类型",
         "field required": "必填",
+        "field describe": "备注",
         "field placeholder": "参数举例",
         "field example": "返回举例",
-        "Deprecated": "标记废弃",
         "Parameters": "请求参数",
         "Request Type": "请求类型",
-        "Request URL": "请求地址"
+        "Request URL": "请求地址",
+        "Request Parameters": "请求参数",
+        "Response Data": "数据返回"
     }
 }
 </i18n>
@@ -73,11 +69,9 @@
                     ></v-text-field>
                 </v-flex>
 
-                <v-divider></v-divider>
-
                 <v-flex xs12>
+                    <br />
                     <h3>{{$t('Request Type')}}</h3>
-
                     <v-flex xs6>
                         <v-select
                         v-model="model.request.contentType"
@@ -86,38 +80,54 @@
                         ></v-select>
                     </v-flex>
                 </v-flex>
+
                 <v-flex xs12>
-                    <h3>{{$t('Parameters')}}</h3>
+                    <br />
+                    <h3>{{$t('Request Parameters')}}</h3>
                     
-                    <template v-for="(field, name) in model.request.fields">
-                        <v-layout v-bind:key="name" style="height: auto;">
-                            <v-flex xs3>
-                                <v-text-field :label="$t('field name')" :value="name"></v-text-field>
+                    <template v-for="(field, index) in model.request.fields">
+                        <v-layout v-bind:key="index" style="height: auto;">
+                            <v-flex xs2>
+                                <v-text-field :label="$t('field name')" :value="field.name"></v-text-field>
                             </v-flex>
                             <v-flex xs2>
                                 <v-select
                                 v-model="field.type"
                                 :label="$t('field type')"
-                                :items="['String', 'Number', 'Array', 'Object']"
+                                :items="['String', 'Boolean', 'Number', 'Array', 'Object']"
                                 ></v-select>
                             </v-flex>
-                            <v-flex xs2>
-                                <v-checkbox
+                            <v-flex xs1>
+                                <v-select
                                 v-model="field.required"
                                 :label="$t('field required')"
-                                ></v-checkbox>
+                                :items="OPTIONS.required"
+                                ></v-select>
                             </v-flex>
-                            <v-flex xs4>
-                            <v-text-field :label="$t('field placeholder')" :value="field.placeholder"></v-text-field>
+                            <v-flex xs3>
+                                <v-text-field :label="$t('field describe')" :value="field.placeholder"></v-text-field>
+                            </v-flex>
+                            <v-flex xs2>
+                                <v-text-field :label="$t('field placeholder')" :value="field.placeholder"></v-text-field>
+                            </v-flex>
+                            <v-flex xs1>
+                                <v-btn small icon flat color="red">
+                                    <v-icon>remove_circle</v-icon>
+                                </v-btn>
                             </v-flex>
                         </v-layout>
                     </template>
+                    <v-btn @click="addResuestField">
+                        <v-icon>add</v-icon>
+                        {{$t('Add')}}
+                    </v-btn>
                 </v-flex>
 
                 <v-divider></v-divider>
 
                 <v-flex xs12>
-                    <h2>Response Data</h2>
+                    <br />
+                    <h3>{{$t('Response Data')}}</h3>
                     <v-select
                     v-model="model.response.contentType"
                     :items="['application/json', 'plaintext']"
@@ -140,19 +150,19 @@
                             </v-flex>
                         </v-layout>
                     </template>
+                    <v-btn>
+                        <v-icon>add</v-icon>
+                        {{$t('Add')}}
+                    </v-btn>
                 </v-flex>
 
-                <v-divider></v-divider>
-
                 <v-flex xs12>
-                    <v-checkbox
-                    v-model="model.deprecated"
-                    :label="$t('Deprecated')"
-                    ></v-checkbox>
+                    <br />
                 </v-flex>
 
                 <v-flex xs12>
                     <v-btn @click="submit" color="success" class="mr-5">{{$t('Submit')}}</v-btn>
+                    <v-btn @click="submit" color="warning" class="mr-5">{{$t('Deprecated')}}</v-btn>
                     <v-btn v-if="!model.removed" @click="remove" color="error">{{$t('Remove')}}</v-btn>
                     <v-btn v-if="model.removed" @click="regain" color="info">{{$t('Regain')}}</v-btn>
                 </v-flex>

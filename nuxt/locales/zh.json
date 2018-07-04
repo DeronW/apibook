@@ -18,6 +18,14 @@
     "Developer": "开发人员",
     "Members": "成员",
     "Cancel": "取消",
+    "Add": "添加",
+    "Path": "路径",
+    "Module": "模块",
+    "Method": "方法",
+    "Prefix": "前缀",
+    "Remove": "删除",
+    "Yes": "是",
+    "No": "否",
     "group": {
         "name": "群组名称",
         "describe": "群组描述"

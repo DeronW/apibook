@@ -11,6 +11,12 @@ export default {
     },
     data() {
         return {
+            OPTIONS: {
+                required: [
+                    { text: this.$t("Yes"), value: true },
+                    { text: this.$t("No"), value: false }
+                ]
+            },
             modules: [],
             model: {
                 path: "",
@@ -72,6 +78,14 @@ export default {
         },
         regain() {
             this.model.removed = false;
+        },
+        addResuestField() {
+            let fields = this.model.request.fields;
+            fields.push({
+                name: "new",
+                type: "String"
+            });
+            this.model.request.fields = fields;
         }
     }
 };
