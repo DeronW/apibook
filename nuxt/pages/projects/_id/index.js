@@ -23,6 +23,7 @@ export default {
             },
             dialogApi: {
                 show: false,
+                moduleId: null,
                 id: null
             },
             modules: [],
@@ -34,7 +35,8 @@ export default {
     },
     methods: {
         check: function(id) {
-            console.log(id);
+            this.dialogApi.id = id;
+            this.dialogApi.show = true;
         },
         refresh() {
             this.$axios
@@ -57,8 +59,14 @@ export default {
             this.dialogModule.id = null;
             this.refresh();
         },
+        createAPI: function(moduleId) {
+            if (moduleId) this.dialogApi.moduleId = moduleId;
+            this.dialogApi.id = null;
+            this.dialogApi.show = true;
+        },
         editAPI: function(id) {
             if (id) this.dialogApi.id = id;
+            this.dialogApi.moduleId = null;
             this.dialogApi.show = true;
         },
         hideAPI: function() {

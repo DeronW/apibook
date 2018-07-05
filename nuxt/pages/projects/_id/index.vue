@@ -14,7 +14,6 @@
 </i18n>
 <template>
     <v-layout row wrap>
-
         <v-dialog 
             v-model="dialogModule.show"
             overlay
@@ -35,6 +34,7 @@
             fullscreen >
             <ProjectAPI 
                 :projectId="projectId"
+                :moduleId="dialogApi.moduleId"
                 :ApiId="dialogApi.id"
                 :close="hideAPI" 
             />
@@ -55,6 +55,7 @@
                 <v-card>
                     <v-card-title>
                         <b>{{item.prefix}}</b>
+                        <span class="ml-3 red--text" v-if="item.deprecated">(Deprecated)</span>
                         <v-spacer></v-spacer>
                         <span class="mr-3">{{item.name}}</span>
                         <span class="mr-3 grey--text">{{item.describe}}</span>
@@ -62,7 +63,7 @@
                             <v-icon>edit</v-icon>
                             {{$t('Edit Module')}}
                         </v-btn>
-                        <v-btn flat @click="editAPI(item.id)">
+                        <v-btn flat @click="createAPI(item.id)">
                             <v-icon>add</v-icon>
                             {{$t('New API')}}
                         </v-btn>

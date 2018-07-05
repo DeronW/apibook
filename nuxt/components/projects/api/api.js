@@ -3,6 +3,7 @@
 export default {
     props: {
         projectId: Number,
+        moduleId: Number,
         ApiId: Number,
         close: Function
     },
@@ -11,6 +12,10 @@ export default {
     },
     data() {
         return {
+            alert: {
+                type: "info",
+                text: ""
+            },
             OPTIONS: {
                 required: [
                     { text: this.$t("Yes"), value: true },
@@ -20,9 +25,9 @@ export default {
             modules: [],
             model: {
                 path: "",
-                select: "GET",
-                module: null,
-                id: "",
+                method: "GET",
+                module: this.moduleId,
+                describe: "No Comment",
                 request: {
                     contentType: "application/json",
                     fields: []
@@ -37,16 +42,17 @@ export default {
         };
     },
     watch: {
-        moduleId: function() {
-            // if (this.ApiId) {
-            //     this.$axios
-            //         .$get("/api/info.json?id=" + this.ApiId)
-            //         .then(data => {
-            //         });
-            // } else {
-            //     this.name = "";
-            //     this.deprecated = false;
-            // }
+        moduleId: function() {},
+        ApiId: function() {
+            if (this.ApiId)
+                this.$axios
+                    .$get("/api/info.json?id=" + this.ApiId)
+                    .then(data => {
+                        this.model.path = data.path;
+                        this.model.method = data.method;
+                        this.model.module = data.module_id;
+                        this.modle.describe = data.describe;
+                    });
         }
     },
 
@@ -71,8 +77,30 @@ export default {
 
     methods: {
         submit() {
-            this.$axios.$post("/api/create.json");
+            this.ApiId ? this.update() : this.create();
         },
+        create() {
+            this.$axios
+                .$post("/api/create.json", {
+                    method: this.model.method,
+                    path: this.model.path,
+                    describe: this.model.describe,
+                    module_id: this.model.module,
+                    project_id: this.projectId
+                })
+                .then(data => {
+                    this.alert = {
+                        type: "success",
+                        text: "Create Success"
+                    };
+                })
+                .then(() => {
+                    setTimeout(() => {
+                        this.alert.text = null;
+                    }, 2000);
+                });
+        },
+        update() {},
         remove() {
             this.model.removed = true;
         },

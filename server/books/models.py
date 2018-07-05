@@ -135,6 +135,7 @@ class ApiEntry(BaseModel):
     def data(self):
         return {
             'method': self.method,
+            'module_id': self.module_id,
             'path': self.path,
             'deprecated': self.deprecated
         }

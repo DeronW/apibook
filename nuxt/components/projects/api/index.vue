@@ -6,6 +6,7 @@
         "Edit API": "编辑API",
 
         "Regain": "恢复",
+        "Describe": "描述",
         "field name": "字段名",
         "field type": "字段类型",
         "field required": "必填",
@@ -37,6 +38,9 @@
         <v-container>
             <v-layout row wrap>
                 <v-flex xs12>
+                    <v-alert :value="!!alert.text" :type="alert.type" outline>{{alert.text}}</v-alert>
+                </v-flex>
+                <v-flex xs12>
                     <h3>{{$t('Request URL')}}</h3>
                 </v-flex>
                 <v-flex xs2>
@@ -46,11 +50,12 @@
                     :label="$t('Module')"
                     item-text="name"
                     item-value="id"
+                    :disabled="!!moduleId"
                     ></v-select>
                 </v-flex>
                 <v-flex xs2>
                     <v-select
-                    v-model="model.select"
+                    v-model="model.method"
                     :label="$t('Method')"
                     :items="['GET', 'POST', 'PUT', 'DELETE']"
                     ></v-select>
@@ -67,6 +72,17 @@
                         :label="$t('Path')"
                         required
                     ></v-text-field>
+                </v-flex>
+
+                <v-flex xs12>
+                    <br />
+                    <h3>{{$t('Describe')}}</h3>
+                    <v-flex xs6>
+                        <v-textarea box auto-grow
+                            :label="$t('Describe')"
+                            :value="model.describe"
+                        ></v-textarea>
+                    </v-flex>
                 </v-flex>
 
                 <v-flex xs12>
