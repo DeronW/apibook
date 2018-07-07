@@ -3,11 +3,24 @@ export default {
     data() {
         return {
             valid: true,
+            member_titles: [
+                { text: this.$t("Username"), class: "text-xs-center" },
+                {
+                    text: "",
+                    sortable: false
+                }
+            ],
             project_titles: [
-                { text: this.$t("project.name"), sortable: false },
+                {
+                    text: this.$t("project.name"),
+                    class: "text-xs-center",
+                    sortable: false
+                },
                 { text: this.$t("project.describe"), sortable: false },
-                { text: this.$t("project.creator"), sortable: false },
-                { text: this.$t("project.created_at"), sortable: false }
+                { text: this.$t("project.scope"), sortable: false },
+                { text: this.$t("project.status"), sortable: false },
+                { text: this.$t("project.created_at"), sortable: false },
+                { text: "", sortable: false }
             ],
             projects: [],
             model: {
@@ -32,7 +45,7 @@ export default {
                 this.model.describe = data.describe;
                 this.model.scope = data.scope;
                 this.model.members = data.members.map(i => ({
-                    username: i.username, 
+                    username: i.username,
                     id: i.id,
                     show: true
                 }));
@@ -54,10 +67,10 @@ export default {
                 })
                 .then(this.refreshGroupInfo);
         },
-        removeMember() {
+        removeMember(uid) {
             this.$axios
                 .$post("/group/remove_member.json", {
-                    user_id: e.target.value,
+                    user_id: uid,
                     id: this.id
                 })
                 .then(() => {
@@ -98,13 +111,13 @@ export default {
                     });
                 });
         },
-        removeAdministrator(name) {
-            this.adminstrators.splice(this.adminstrators.indexOf(name), 1);
-            this.adminstrators = [...this.adminstrators];
-        },
-        removeReader(name) {
-            this.readers.splice(this.readers.indexOf(name), 1);
-            this.readers = [...this.readers];
+        removeProject(pid) {
+            this.$axios
+                .$post("/group/remove_project.json", {
+                    id: this.id,
+                    project_id: pid
+                })
+                .then(this.refreshGroupInfo);
         }
     }
 };

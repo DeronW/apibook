@@ -2,6 +2,7 @@ from django.utils.translation import gettext as _
 
 
 from django.http import JsonResponse
+from books.utils import Success, Fail
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
@@ -17,10 +18,7 @@ def register(request):
     pwd = data.get('password')
 
     def err(text):
-        return JsonResponse({'success': False, 'message': {
-            'type': 'error',
-            'text': text
-        }})
+        return Fail(text)
 
     if User.objects.filter(username=username):
         return err(_('username already exist'))

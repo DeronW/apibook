@@ -19,6 +19,7 @@ groups = [
     path('favorite.json', group.favorite),
     path('add_member.json', group.add_member),
     path('remove_member.json', group.remove_member),
+    path('remove_project.json', group.remove_project),
     path('info.json', group.info)
 ]
 

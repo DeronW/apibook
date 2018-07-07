@@ -2,6 +2,7 @@ from django.utils.translation import gettext as _
 
 
 from django.http import JsonResponse
+from books.utils import Success, Fail
 from django.contrib.auth.models import User
 
 from books.decorators import need_login
@@ -65,8 +66,9 @@ def info(request):
 
 @need_login
 def list(request):
-    projects = Project.objects.filter()
-    return JsonResponse({'success': True, 'data': [x.data for x in projects]})
+    projects = Project.objects.filter().order_by('name')
+    data = [x.data for x in projects]
+    return Success(data)
 
 
 @need_login

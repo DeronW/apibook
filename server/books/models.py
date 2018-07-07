@@ -58,11 +58,18 @@ class Group(BaseModel):
             'id': self.id,
             'name': self.name,
             'describe': self.describe,
+            'created_at': int(time.mktime(self.created_at.timetuple())),
             'updated_at': int(time.mktime(self.updated_at.timetuple())),
             'scope': self.scope,
-            'members': [{'username': x.username, 'id': x.id} for x in self.member.all()],
-            'projects': []
         }
+
+    @property
+    def verbose_data(self):
+        data = self.data
+        data['members'] = [{'username': x.username, 'id': x.id}
+                           for x in self.member.all()]
+        data['projects'] = [x.data for x in self.project_set.all()]
+        return data
 
 
 class Project(BaseModel):
@@ -88,9 +95,14 @@ class Project(BaseModel):
             'describe': self.describe,
             'scope': self.scope,
             'status': self.status,
+            'created_at': int(time.mktime(self.created_at.timetuple())),
             'updated_at': int(time.mktime(self.updated_at.timetuple())),
             'group_id': self.group and self.group.id
         }
+
+    @property
+    def verbose_data(self):
+        return {}
 
 
 class Readme(models.Model):

@@ -9,6 +9,7 @@ export default ({ app, store }) => {
     app.i18n = new VueI18n({
         locale: store.state.locale,
         fallbackLocale: "en",
+        silentTranslationWarn: true,
         messages: {
             zh: require("~/locales/zh.json"),
             en: require("~/locales/en.json")
