@@ -1,6 +1,12 @@
 import ListTitle from "./list-title.vue";
 
 export default {
+    // data(){
+    //     return {
+    //         groups: [],
+    //         projects: []
+    //     }
+    // },
     mounted() {
         this.$store.dispatch("group/refreshList");
         this.$store.dispatch("project/refreshList");
