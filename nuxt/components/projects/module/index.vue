@@ -13,11 +13,6 @@
         <v-flex xs10 offset-xs1>
             <v-text-field v-model="name" :label="$t('Name')" ></v-text-field>
             <v-text-field v-model="prefix" :label="$t('Prefix')" ></v-text-field>
-
-            <v-checkbox
-                v-model="deprecated"
-                :label="$t('Deprecated')"
-            ></v-checkbox>
         </v-flex>
         <v-flex xs10 offset-xs1>
             <v-btn @click="submit">{{$t('Submit')}}</v-btn>

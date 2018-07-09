@@ -20,7 +20,7 @@
             width="500"
         >
             <v-card>
-                <v-card-title>{{$t('New Module')}}</v-card-title>
+                <v-card-title>{{dialogModule.id ? $t('New Module') : $t()}}</v-card-title>
                 <ProjectModule 
                     :projectId="projectId"
                     :moduleId="dialogModule.id"
@@ -54,11 +54,8 @@
             <v-flex xs12 :key="item.id">
                 <v-card>
                     <v-card-title>
-                        <b>{{item.prefix}}</b>
-                        <span class="ml-3 red--text" v-if="item.deprecated">(Deprecated)</span>
+                        <b>{{item.name}}</b>
                         <v-spacer></v-spacer>
-                        <span class="mr-3">{{item.name}}</span>
-                        <span class="mr-3 grey--text">{{item.describe}}</span>
                         <v-btn flat @click="editModule(item.id)">
                             <v-icon>edit</v-icon>
                             {{$t('Edit Module')}}

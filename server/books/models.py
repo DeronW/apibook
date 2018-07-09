@@ -114,7 +114,6 @@ class Readme(models.Model):
 class Module(BaseModel):
     name = models.CharField(max_length=30)
     prefix = models.CharField(max_length=30, blank=True, default='')
-    deprecated = models.BooleanField(default=False)
     project = models.ForeignKey(
         'Project', null=True, on_delete=models.SET_NULL)
 
@@ -126,7 +125,6 @@ class Module(BaseModel):
         return {
             'id': self.id,
             'name': self.name,
-            'deprecated': self.deprecated,
             'prefix': self.prefix
         }
 
@@ -192,22 +190,19 @@ class ApiResponseField(BaseModel):
 
 
 class GlobalConfig(models.Model):
-    base_url = models.CharField(blank=True, null=True, max_length=100)
+    mount_url = models.CharField(
+        blank=True, null=True, max_length=100, default='/apibook')
     allow_register = models.BooleanField(default=True)
-    need_login = models.BooleanField(default=True)
+    freelance = models.BooleanField(default=True)
+
+    @classmethod
+    def instance(cls):
+        return cls.objects.first() or cls.objects.create()
 
     @property
     def data(self):
         return {
-            'base_url': self.base_url,
+            'mount_url': self.mount_url,
             'allow_register': self.allow_register,
-            'need_login': self.need_login
+            'freelance': self.freelance
         }
-
-    # def save(self):
-    #     if self.pk is not None:
-    #         raise Exception(
-    #             'GlobalConfig should be singleton, and we have already have one')
-    #     else:
-    #         self.pk = 1
-    #         self.save()

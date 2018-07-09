@@ -1,6 +1,11 @@
 export const state = () => ({
     locale: "zh",
     drawer: false,
+    config: {
+        freelance: false,
+        mountUrl: "",
+        allowRegister: false
+    },
     message: {
         show: false,
         type: "info",
@@ -14,6 +19,11 @@ export const mutations = {
     },
     TOGGLE_DRAWER(state) {
         state.drawer = !state.drawer;
+    },
+    SET_CONF(state, conf) {
+        state.config.freelance = conf.freelance;
+        state.config.mountUrl = conf.mountUrl;
+        state.config.allowRegister = conf.allowRegister;
     },
     NOTIFY(state, msg) {
         if (msg) {

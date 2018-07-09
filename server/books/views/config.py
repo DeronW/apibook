@@ -1,23 +1,24 @@
 
 from django.http import JsonResponse
+
 from books.decorators import need_login
-
 from books.models import GlobalConfig
+from books.utils import Success
 
 
-@need_login
 def info(request):
-    conf = GlobalConfig.objects.first()
-    if conf is None:
-        conf = GlobalConfig.objects.create()
-    return JsonResponse({'success': True, 'data': conf.data})
+    conf = GlobalConfig.instance()
+    return Success(conf.data)
+
 
 @need_login
 def update(request):
     data = request.json
-    conf = GlobalConfig.objects.first()
-    conf.base_url = data.get('base_url')
+    conf = GlobalConfig.instance()
+    
+    conf.mount_url = data.get('mount_url')
     conf.allow_register = data.get('allow_register')
-    conf.need_login = data.get('need_login')
+    conf.freelance = data.get('freelance')
     conf.save()
-    return JsonResponse({'success': True})
+
+    return Success()

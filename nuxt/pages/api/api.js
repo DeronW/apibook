@@ -1,4 +1,10 @@
 export default {
+    asyncData({ query }) {
+        return {
+            projectId: query.project_id,
+            apiId: query.api_id
+        };
+    },
     head() {
         return {
             title: "API"

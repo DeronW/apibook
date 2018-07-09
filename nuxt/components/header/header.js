@@ -19,6 +19,14 @@ export default {
                 });
             }
         });
+
+        this.$axios.$get("/config/info.json").then(data => {
+            this.$store.commit("SET_CONF", {
+                freelance: data.freelance,
+                mountUrl: data.mount_url,
+                allowRegister: data.allow_register
+            });
+        });
     },
     methods: {
         toggleDrawer: function() {

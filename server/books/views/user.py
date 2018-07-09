@@ -64,20 +64,16 @@ def logout_user(request):
 @need_login
 def info(request):
     user = None
-    if request.json.get('id'):
-        user = User.objects.get(id=request.json.get('id'))
-        if not request.user.is_superuser and user != request.user:
+    if request.json.get('uid'):
+        if request.user.is_superuser:
+            user = User.objects.get(id=request.json.get('uid'))
+        else:
             user = None
     else:
         user = request.user
 
-    if user:
-        return JsonResponse({'data': get_user_info(user)})
-    else:
-        return JsonResponse({'success': False, 'message': {
-            'type': 'error',
-            'text': _('Permission deny')
-        }})
+    return Success(get_user_info(user))
+
 
 @need_login
 def update(request):
@@ -103,6 +99,7 @@ def update(request):
             'text': _('Permission deny')
         }})
 
+
 def list(request):
     users = User.objects.all()
     data = [{
@@ -113,13 +110,25 @@ def list(request):
     } for u in users]
     return JsonResponse({'success': True, 'data': data})
 
-def get_user_info(user):
 
-    return {
-        'username': user.username,
-        'email': user.email,
-        'id': user.id,
-        'isAdmin': user.is_superuser
-    } if user.is_authenticated else {
-        'id': None
-    }
+def get_user_info(user):
+    if user.is_anonymous:
+        return {
+            'username': 'Anonymouse',
+            'email': '',
+            'id': '',
+            'isAdmin': True,
+            'isAnonymous': True
+        }
+    elif user.is_authenticated:
+        return {
+            'username': user.username,
+            'email': user.email,
+            'id': user.id,
+            'isAdmin': user.is_superuser,
+            'isAnonymous': True
+        }
+    else:
+        return {
+            'id': None
+        }

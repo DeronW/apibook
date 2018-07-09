@@ -25,7 +25,7 @@
                         </v-list-tile-content>
                         <v-list-tile-action>
                             <v-list-tile-action-text>{{$dayjs().from($dayjs(item.updated_at*1000))}}</v-list-tile-action-text>
-                            {{item.scope == 'public' ? $t('Public') : $t('Private')}}
+                            <v-icon v-if="item.scope == 'private'">visibility_off</v-icon>
                             <v-icon v-if="item.star" color="orange"> star </v-icon>
                         </v-list-tile-action>
                     </v-list-tile>

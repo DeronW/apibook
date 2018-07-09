@@ -1,8 +1,12 @@
 export default {
+    head() {
+        return {
+            title: this.$t("Global Config")
+        };
+    },
     data() {
         return {
-            model: {
-            }
+            model: {}
         };
     },
 
@@ -14,11 +18,9 @@ export default {
 
     methods: {
         submit() {
-            this.$axios
-                .$post("/config/update.json", this.model)
-                .then(res => {
-                    this.$store.dispatch("notify", this.$t("Success"));
-                });
+            this.$axios.$post("/config/update.json", this.model).then(res => {
+                this.$store.dispatch("notify", this.$t("Success"));
+            });
         }
     }
 };

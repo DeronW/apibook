@@ -27,9 +27,6 @@
                 <v-list-tile>
                     <v-btn flat small nuxt to="/groups/new" color="primary"> {{ $t('New Group')}} </v-btn>
                 </v-list-tile>
-                <!-- <v-list-tile>
-                    <nuxt-link to="/groups/new">{{ $t('New Group')}}</nuxt-link>
-                </v-list-tile> -->
                 <v-list-tile>
                     <v-btn flat small nuxt to="/projects/new" color="primary">{{ $t('New Project')}}</v-btn>
                 </v-list-tile>

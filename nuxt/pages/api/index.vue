@@ -65,7 +65,7 @@
                             </v-list-group>
                         </template>
 
-                        <v-list-tile v-for="api in apis" :key="api.id">
+                        <v-list-tile v-for="api in apis" :key="'api' + api.id">
                             <v-list-tile-action></v-list-tile-action>
                             <v-list-tile-title>
                                 {{api.method}}
@@ -77,13 +77,35 @@
                             </v-list-tile-action>
                         </v-list-tile>
                     </v-list-group>
-
-
                 </v-list>
             </v-navigation-drawer>
         </v-flex>
         <v-flex xs8>
-            
+            <v-layout>
+                <v-flex xs3>
+                    <v-text-field
+                        label="Method"
+                    ></v-text-field>
+                </v-flex>    
+                <v-flex xs3>
+                    
+                    <v-text-field
+                        label="Module"
+                    ></v-text-field>
+                </v-flex>    
+                <v-flex xs3>
+                    
+                    <v-text-field
+                        label="Path"
+                    ></v-text-field>
+                </v-flex>    
+                <v-flex xs3>
+                    
+                    <v-text-field
+                        label="Save"
+                    ></v-text-field>
+                </v-flex>    
+            </v-layout>            
         </v-flex>
     </v-layout>
 </template>

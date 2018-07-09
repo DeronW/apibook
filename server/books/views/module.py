@@ -21,8 +21,7 @@ def create(request):
     m = Module.objects.create(
         name=data.get('name'),
         prefix=data.get('prefix'),
-        project_id=data.get('project_id'),
-        deprecated=data.get('deprecated'))
+        project_id=data.get('project_id'))
     if m.id:
         return Success({'id': m.id})
     else:
@@ -38,6 +37,5 @@ def update(request):
         return Fail('Module does not exist')
     m.name = data.get('name')
     m.prefix = data.get('prefix')
-    m.deprecated = data.get('deprecated')
     m.save()
     return Success({'id': m.id})

@@ -7,8 +7,7 @@ export default {
     data() {
         return {
             name: "",
-            prefix: "",
-            deprecated: false
+            prefix: ""
         };
     },
     watch: {
@@ -19,12 +18,10 @@ export default {
                     .then(data => {
                         this.name = data.name;
                         this.prefix = data.prefix;
-                        this.deprecated = data.deprecated;
                     });
             } else {
                 this.name = "";
                 this.prefix = "";
-                this.deprecated = false;
             }
         }
     },
@@ -41,8 +38,7 @@ export default {
                 .$post("/module/create.json", {
                     name: this.name,
                     prefix: this.prefix,
-                    project_id: this.projectId,
-                    deprecated: this.deprecated
+                    project_id: this.projectId
                 })
                 .then(() => {
                     this.$store.dispatch("notify", {
@@ -58,8 +54,7 @@ export default {
                     module_id: this.moduleId,
                     name: this.name,
                     prefix: this.prefix,
-                    project_id: this.projectId,
-                    deprecated: this.deprecated
+                    project_id: this.projectId
                 })
                 .then(() => {
                     this.$store.dispatch("notify", {
