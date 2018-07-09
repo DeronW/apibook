@@ -1,5 +1,6 @@
 export const state = () => ({
     list: [],
+    favorites: []
 });
 
 export const mutations = {
@@ -22,5 +23,6 @@ export const actions = {
         this.$axios.$get("/project/rows.json?id=" + projectId).then(data => {
             commit("refreshRow", data);
         });
-    }
+    },
+    favorites({ commit, state }) {}
 };

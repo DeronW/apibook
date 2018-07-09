@@ -51,10 +51,6 @@
             @click="link('/users')">
             {{$t('Users Management')}}
         </v-list-tile>
-        <v-list-tile class="pl-5"
-            @click="link('/users/' + $store.state.user.id)">
-            {{$t('User Settings')}}
-        </v-list-tile>
 
         <ListTitle icon="help" :text="$t('Help')" />
         <v-list-tile class="pl-5" nuxt to="https://github.com/DeronW/apibook">

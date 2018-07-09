@@ -15,8 +15,8 @@ users = [
 groups = [
     path('create.json', group.create),
     path('update.json', group.update),
-    path('list.json', group.list),
-    path('favorite.json', group.favorite),
+    path('all.json', group.all),
+    path('favorites.json', group.favorites),
     path('add_member.json', group.add_member),
     path('remove_member.json', group.remove_member),
     path('remove_project.json', group.remove_project),

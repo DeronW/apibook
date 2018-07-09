@@ -7,6 +7,17 @@ export default {
     computed: {
         user() {
             return this.$store.state.user;
+        },
+        show() {
+            let user = this.$store.state.user,
+                config = this.$store.state.config;
+            let showLogin = !user.isLogin && !config.freelance;
+            return {
+                newButton: user.isLogin || config.freelance,
+                login: showLogin,
+                register: showLogin && config.allowRegister,
+                logout: user.isLogin
+            };
         }
     },
     mounted() {

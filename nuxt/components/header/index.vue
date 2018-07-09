@@ -17,7 +17,7 @@
         <v-text-field solo-inverted flat label="Search" prepend-icon="search"></v-text-field>
         <v-spacer></v-spacer>
 
-        <v-menu open-on-hover bottom v-if="user.isLogin">
+        <v-menu open-on-hover bottom v-if="show.newButton">
             <v-toolbar-title slot="activator">
                 <v-btn icon class="mr-4">
                     <v-icon>add</v-icon>
@@ -34,10 +34,10 @@
         </v-menu>
 
         <v-toolbar-items>
-            <v-btn nuxt v-if="!user.isLogin" to="/login">{{$t('Login')}} </v-btn>
-            <v-btn nuxt v-if="!user.isLogin" to="/register">{{$t('Register')}} </v-btn>
-            <v-btn nuxt v-if="user.isLogin" :to="'/users/' + user.id">{{user.name}}</v-btn>
-            <v-btn v-if="user.isLogin" v-on:click="logout">{{$t('Logout')}}</v-btn>
+            <v-btn nuxt v-if="show.login" to="/login">{{$t('Login')}} </v-btn>
+            <v-btn nuxt v-if="show.register" to="/register">{{$t('Register')}} </v-btn>
+            <v-btn nuxt v-if="show.login" :to="'/users/' + user.id">{{user.name}}</v-btn>
+            <v-btn v-if="show.login" v-on:click="logout">{{$t('Logout')}}</v-btn>
         </v-toolbar-items>
     </v-toolbar>
 </template>

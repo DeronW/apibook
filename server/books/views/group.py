@@ -59,34 +59,35 @@ def info(request):
         return Fail({'message': 'Group id:%s not exist' % id})
 
 
-@need_login
-def list(request):
-
-    user = request.user
-    if user.is_authenticated:
-        favorite_groups = user.group_favorites.all()
-    else:
-        favorite_groups = []
-
-    favorite_group_ids = [x.id for x in favorite_groups]
+def all(request):
     groups = Group.objects.all().order_by('name')
     groups = [x.data for x in groups]
-    for i in groups:
-        if favorite_group_ids.count(i.get('id')):
-            i['star'] = True
     return Success(groups)
 
 
 @need_login
-def favorite(request):
-    gid = request.json.get('id')
-    cancel = request.json.get('action') == 'cancel'
-    group = Group.objects.get(id=gid)
-    if cancel:
-        group.favorite.remove(request.user)
+def favorites(request):
+    if request.user.is_anonymous:
+        return Success()
     else:
-        group.favorite.add(request.user)
-    return JsonResponse({'success': True})
+        groups = request.user.group_favorites.all()
+    return Success([x.data for x in groups])
+
+
+@need_login
+def like(request):
+    gid = request.GET.get('id')
+    group = Group.objects.get(id=gid)
+    group.favorite.add(request.user)
+    return Success()
+
+
+@need_login
+def dislike(request):
+    gid = request.GET.get('id')
+    group = Group.objects.get(id=gid)
+    group.favorite.remove(request.user)
+    return Success()
 
 
 @need_login
@@ -107,6 +108,7 @@ def remove_member(request):
     group = Group.objects.get(id=request.json.get('id'))
     group.member.remove(user)
     return Success()
+
 
 @need_login
 def remove_project(request):

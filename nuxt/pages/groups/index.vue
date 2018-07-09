@@ -84,7 +84,7 @@ export default {
         }
     },
     mounted() {
-        this.$axios.$get("/group/list.json").then(data => {
+        this.$axios.$get("/group/all.json").then(data => {
             this.groups = data;
         });
     }

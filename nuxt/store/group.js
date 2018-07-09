@@ -1,18 +1,26 @@
 export const state = () => ({
-    list: []
+    all: [],
+    favorites: []
 });
 
 export const mutations = {
-    refreshList(state, list) {
-        state.list = list;
+    all(state, groups) {
+        state.all = groups || [];
+    },
+    favorites(state, groups) {
+        state.favorites = groups || [];
     }
 };
 
 export const actions = {
-    refreshList({ commit, state }, force) {
-        if (force || state.list.length === 0)
-            this.$axios.$get("/group/list.json").then(data => {
-                commit("refreshList", data);
-            });
+    refreshList({ commit }) {
+        this.$axios.$get("/group/all.json").then(data => {
+            commit("all", data);
+        });
+    },
+    favorites({ commit }) {
+        this.$axios.$get("/group/favorites.json").then(data => {
+            commit("favorites", data);
+        });
     }
 };

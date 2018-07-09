@@ -1,28 +1,19 @@
 import ListTitle from "./list-title.vue";
 
 export default {
-    // data(){
-    //     return {
-    //         groups: [],
-    //         projects: []
-    //     }
-    // },
     mounted() {
-        this.$store.dispatch("group/refreshList");
-        this.$store.dispatch("project/refreshList");
+        this.$store.dispatch("group/favorites");
+        this.$store.dispatch("project/favorites");
     },
     computed: {
-        drawer: {
-            get: function() {
-                return this.$store.state.drawer;
-            },
-            set: () => null
+        drawer() {
+            return this.$store.state.drawer;
         },
         projects() {
-            return this.$store.state.project.list;
+            return this.$store.state.project.favorites;
         },
         groups() {
-            return this.$store.state.group.list;
+            return this.$store.state.group.favorites;
         }
     },
     methods: {
