@@ -68,7 +68,7 @@ def all(request):
 
 
 @need_login
-def favorites(request):
+def watching(request):
     if request.user.is_anonymous:
         return Success()
     else:
@@ -77,7 +77,7 @@ def favorites(request):
 
 
 @need_login
-def like(request):
+def watch(request):
     gid = request.GET.get('id')
     group = Group.objects.get(id=gid)
     group.favorite.add(request.user)
@@ -85,7 +85,7 @@ def like(request):
 
 
 @need_login
-def dislike(request):
+def unwatch(request):
     gid = request.GET.get('id')
     group = Group.objects.get(id=gid)
     group.favorite.remove(request.user)

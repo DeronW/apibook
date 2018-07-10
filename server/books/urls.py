@@ -16,9 +16,11 @@ groups = [
     path('create.json', group.create),
     path('update.json', group.update),
     path('all.json', group.all),
-    path('favorites.json', group.favorites),
     path('add/member.json', group.add_member),
     path('remove/member.json', group.remove_member),
+    path('watching.json', group.watching),
+    path('watch.json', group.watch),
+    path('unwatch.json', group.unwatch),
     path('remove_project.json', group.remove_project),
     path('info.json', group.info)
 ]
