@@ -1,3 +1,5 @@
+import { GroupScopeText } from "~/components";
+
 export default {
     head() {
         return {
@@ -6,25 +8,19 @@ export default {
     },
     data() {
         return {
+            limit: 6,
             groups: [],
             projects: []
         };
     },
-    computed: {
-        group_list: function() {
-            return this.showAllGroups ? this.groups : this.groups.slice(0, 6);
-        },
-        project_list: function() {
-            return this.showAllProjects
-                ? this.projects
-                : this.projects.slice(0, 6);
-        }
+    components: {
+        GroupScopeText
     },
     mounted() {
-        this.$axios.$get("/group/list.json").then(data => {
+        this.$axios.$get("/group/all.json").then(data => {
             this.groups = data;
         });
-        this.$axios.$get("/project/list.json").then(data => {
+        this.$axios.$get("/project/all.json").then(data => {
             this.projects = data;
         });
     },

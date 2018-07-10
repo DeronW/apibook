@@ -16,9 +16,11 @@
                     <template v-for="(item, index) in projects">
                         <v-divider :key="index" v-if="index"></v-divider>
                         <v-list-tile :key="item.title" avatar @click="empty">
-                            <v-list-tile-action @click="toggleStar(item.id)">
+                            
+                            <v-list-tile-action v-if="config.freelance" @click="toggleStar(item.id)">
                                 <v-icon :color="item.star ? 'orange' : 'gray'">{{ item.star ? 'star' : 'star_border'}}</v-icon>
                             </v-list-tile-action>
+
                             <v-list-tile-content @click="link(`/projects/${item.id}`)">
                                 <v-list-tile-title>
                                     {{item.name}}
@@ -28,7 +30,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-list-tile-action-text>{{$t('created at')}} {{$dayjs().from($dayjs(item.created_at*1000))}}</v-list-tile-action-text>
-                                {{item.scope}}
+                                <ProjectScopeText :scope="item.scope"/>
                             </v-list-tile-action>
                         </v-list-tile>
                     </template>
@@ -39,6 +41,7 @@
 </template>
 
 <script>
+import { ProjectScopeText } from "~/components";
 export default {
     head() {
         return {
@@ -49,6 +52,14 @@ export default {
         return {
             projects: []
         };
+    },
+    components: {
+        ProjectScopeText
+    },
+    computed: {
+        config: function() {
+            return this.$store.state.config.freelance;
+        }
     },
     methods: {
         empty: function() {},
@@ -81,7 +92,7 @@ export default {
         }
     },
     mounted() {
-        this.$axios.$get("/project/list.json").then(data => {
+        this.$axios.$get("/project/all.json").then(data => {
             this.projects = data;
         });
     }

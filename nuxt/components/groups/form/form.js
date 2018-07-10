@@ -1,8 +1,7 @@
 export default {
-    props: ["disabled", "id"],
+    props: ["disabled", "groupId"],
     data() {
         return {
-            valid: true,
             member_titles: [
                 { text: this.$t("Username"), class: "text-xs-center" },
                 {
@@ -28,50 +27,62 @@ export default {
                 describe: "",
                 scope: "public",
                 members: []
-            }
+            },
+            addUserTips: null
         };
     },
     mounted() {
-        if (this.id) this.refreshGroupInfo();
+        if (this.groupId) this.refreshGroupInfo();
     },
     methods: {
         submit() {
-            if (!this.$refs.form.validate()) return;
-            this.id ? this.updateGroup() : this.createGroup();
+            if (this.model.name) {
+                this.groupId ? this.updateGroup() : this.createGroup();
+            } else {
+                alert("Name is required");
+            }
         },
         refreshGroupInfo() {
-            this.$axios.$get("/group/info.json?id=" + this.id).then(data => {
-                this.model.name = data.name;
-                this.model.describe = data.describe;
-                this.model.scope = data.scope;
-                this.model.members = data.members.map(i => ({
-                    username: i.username,
-                    id: i.id,
-                    show: true
-                }));
-                this.projects = data.projects;
-            });
+            this.$axios
+                .$get("/group/info.json?gid=" + this.groupId)
+                .then(data => {
+                    this.model.name = data.name;
+                    this.model.describe = data.describe;
+                    this.model.scope = data.scope;
+                    this.model.members = data.members.map(i => ({
+                        username: i.username,
+                        id: i.id,
+                        show: true
+                    }));
+                    this.projects = data.projects;
+                });
         },
         addMember(e) {
             this.$axios
-                .$post("/group/add_member.json", {
+                .$post("/group/add/member.json", {
                     email_or_username: e.target.value,
-                    id: this.id
+                    gid: this.groupId
                 })
-                .then(() => {
-                    e.target.value = "";
-                    this.$store.dispatch("notify", {
-                        type: "success",
-                        text: this.$t("Add member Success")
-                    });
-                })
+                .then(
+                    () => {
+                        this.$store.dispatch("notify", {
+                            type: "success",
+                            text: this.$t("Add member Success")
+                        });
+                        this.addUserTips = null;
+                    },
+                    e => {
+                        this.addUserTips = e.message || "Failed";
+                    }
+                )
                 .then(this.refreshGroupInfo);
         },
         removeMember(uid) {
+            if (!confirm(this.$t("Remove user from this group?"))) return;
             this.$axios
-                .$post("/group/remove_member.json", {
-                    user_id: uid,
-                    id: this.id
+                .$post("/group/remove/member.json", {
+                    uid: uid,
+                    gid: this.groupId
                 })
                 .then(() => {
                     this.$store.dispatch("notify", {
@@ -99,7 +110,7 @@ export default {
         updateGroup() {
             this.$axios
                 .$post("/group/update.json", {
-                    id: this.id,
+                    gid: this.groupId,
                     name: this.model.name,
                     describe: this.model.describe,
                     scope: this.model.scope

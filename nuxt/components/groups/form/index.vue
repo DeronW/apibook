@@ -3,7 +3,6 @@
 {
     "zh": {
         "input name": "输入用户名, 然后回车",
-        "Project List": "项目列表",
         "Email or Username": "用户名或邮箱",
         "Add new member": "添加新成员",
         "Member Management": "成员管理"
@@ -17,7 +16,7 @@
 <template>
 
   <v-container grid-list-xl>
-    <v-card>
+    <v-card v-if="groupId">
       <v-layout>
         <v-flex xs10 offset-xs1>
           <h2 style="padding: 30px;">{{$t('Project List')}}</h2>
@@ -42,50 +41,46 @@
     <br />
     
     <v-card>
-        <v-form ref="form" v-model="valid" lazy-validation>
-          <v-layout row wrap>
-            <v-flex xs5 offset-xs1>
-              <v-text-field v-model="model.name" :label="$t('group.name')" required>
-              </v-text-field>
-              <v-textarea v-model="model.describe" :label="$t('group.describe')"></v-textarea>
-            </v-flex>
-            <v-flex xs5 offset-xs1>
+        <v-layout row wrap>
+          <v-flex xs5 offset-xs1>
+            <v-text-field v-model="model.name" :label="$t('group.name')"></v-text-field>
+            <v-text-field multi-line v-model="model.describe" :label="$t('group.describe')"></v-text-field>
+          </v-flex>
+          <v-flex xs5 offset-xs1>
 
-              <v-radio-group v-model="model.scope">
-                <v-radio :label="$t('Public')" value="public"></v-radio>
-                <p class="text-sm-left">{{$t('public label')}}</p>
-                <v-radio :label="$t('Private')" value="private"></v-radio>
-                <p class="text-sm-left">{{$t('private label')}}</p>
-              </v-radio-group>
+            <v-radio-group v-model="model.scope">
+              <v-radio :label="$t('Public')" value="public"></v-radio>
+              <p class="text-sm-left">{{$t('public label')}}</p>
+              <v-radio :label="$t('Private')" value="private"></v-radio>
+              <p class="text-sm-left">{{$t('private label')}}</p>
+            </v-radio-group>
 
-            </v-flex>
-            <v-flex xs4 offset-xs1>
-              <v-btn v-if="!disabled" :disabled="!valid" @click="submit" class="success">{{$t('Submit')}} </v-btn>
-            </v-flex>
-          </v-layout>
-        </v-form>
+          </v-flex>
+          <v-flex xs4 offset-xs1>
+            <v-btn @click="submit" class="success">{{$t('Submit')}} </v-btn>
+          </v-flex>
+        </v-layout>
     </v-card>
     <br />
     <br />
 
-    <v-card>
+    <v-card v-if="this.groupId">
       <v-layout row wrap>
         <v-flex xs11 offset-xs1>
           <h2>{{$t('Member Management')}}</h2>
         </v-flex>
-        <v-flex xs2 offset-xs1>
-          <v-alert :value="true" outline color="info">{{$t('Add new member')}}</v-alert>
-        </v-flex>
-        <v-flex xs5>
-          <v-text-field append-outer-icon="mdi-send" prepend-icon="mdi-emoticon" box clearable :label="$t('Email or Username')" type="text" @keyup.enter="addMember"></v-text-field>
+        <v-flex xs5 offset-xs1>
+          
+          <v-alert :value="!addUserTips" outline color="info">{{$t('Add new member')}}</v-alert>
+          <v-alert :value="!!addUserTips" outline color="error">{{addUserTips}}</v-alert>
+          <v-text-field outline prepend-icon="people" clearable :label="$t('Email or Username')" @keyup.enter="addMember"></v-text-field>
         </v-flex>
 
-        <v-flex xs6 offset-xs1>
+        <v-flex xs5>
           <v-data-table :headers="member_titles" :items="model.members" hide-actions>
             <template slot="items" slot-scope="props">
-              <td>
+              <td class="text-xs-center">
                   <v-btn flat color="info" nuxt :to="`/users/${props.item.id}`">{{ props.item.username }}</v-btn>
-                
               </td>
               <td>
                 <v-btn flat color="red" @click="removeMember(props.item.id)">{{$t('Remove')}}</v-btn>

@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 from django.http import JsonResponse
 from books.utils import Success, Fail
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from books.decorators import need_login
 from IPython import embed
@@ -34,53 +35,86 @@ def create(request):
         }})
 
 
-# @need_login
-# def update(request):
-#     data = request.json
-#     group = Group.objects.filter(id=data.get('id'))[0]
+@need_login
+def update(request):
+    data = request.json
+    project = Project.get(data.get('pid'))
 
-#     if group is None:
-#         return JsonResponse({'success': False, 'message': {
-#             'type': 'error',
-#             'text': 'Group id:%s does not exist' % data.get('id')
-#         }})
+    if project is None:
+        return Fail('Project id:%s does not exist' % data.get('id'))
 
-#     group.name = data.get('name')
-#     group.describe = data.get('describe')
-#     group.status = data.get('status')
-#     group.scope = data.get('scope')
-#     group.save()
+    project.name = data.get('name')
+    project.describe = data.get('describe')
+    project.status = data.get('status')
+    project.scope = data.get('scope')
+    project.group_id = data.get('group_id')
+    project.save()
 
-#     return JsonResponse({'success': True, 'data': {'id': group.id}})
-
+    return Success()
 
 @need_login
-def info(request):
-    id = request.GET.get('id')
-    project = Project.objects.filter(id=id)[0]
-    if project:
-        return JsonResponse({'success': True, 'data': project.data})
+def add_member(request):
+    eu = request.json.get('email_or_username')
+    user = User.objects.filter(Q(email=eu) | Q(username=eu))
+    if user:
+        project = Project.get(request.json.get('pid'))
+        project.member.add(user[0])
+        return Success()
     else:
-        return JsonResponse({'success': False, 'message': 'Project id:%s not exist' % id})
+        return Fail('User does not exist')
+    return Success()
 
 
 @need_login
-def list(request):
+def remove_member(request):
+    data = request.json
+    user = User.objects.get(id=data.get('uid'))
+    project = Project.get(id=data.get('pid'))
+    project.member.remove(user)
+    return Success()
+
+def info(request):
+    project = Project.get(request.GET.get('pid'))
+    if project:
+        return Success(project.verbose_data)
+    else:
+        return Fail('Project id:%s not exist' % id)
+
+
+@need_login
+def all(request):
     projects = Project.objects.filter().order_by('name')
     data = [x.data for x in projects]
     return Success(data)
 
 
 @need_login
-def favorite(request):
-    gid = request.json.get('id')
-    cancel = request.json.get('action') == 'cancel'
-    project = Project.objects.get(id=gid)
-    if cancel:
-        project.favorite.remove(request.user)
+def watching(request):
+    if request.user.is_anonymous:
+        return Success([])
     else:
-        project.favorite.add(request.user)
-    return Success()
+        ps = request.user.project_favorites.all()
+        return Success([x.data for x in ps])
+
+
+@need_login
+def watch(request):
+    if request.user.is_anonymous:
+        return Fail()
+    else:
+        p = Project.objects.get(id=request.GET.get('pid'))
+        p.favorite.add(request.user)
+        return Success()
+
+
+@need_login
+def unwatch(request):
+    if request.user.is_anonymous:
+        return Fail()
+    else:
+        p = Project.objects.get(id=request.GET.get('pid'))
+        p.favorite.remove(request.user)
+        return Success()
 
 
 def modules(request):

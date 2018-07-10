@@ -18,8 +18,6 @@ PROJECT_STATUS = [(x, x) for x in ('maintaining', 'deprecated', 'disabled')]
 SCOPE_STATUS = [(x, x) for x in ('public', 'private')]
 
 
-# from django.contrib.auth.models import AbstractUser
-
 class UserExtra(models.Model):
     user = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
@@ -40,6 +38,14 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
+    @classmethod
+    def get(cls, id):
+        try:
+            obj = cls.objects.get(id=id)
+        except cls.DoesNotExist:
+            return None
+        else:
+            return obj
 
 class Group(BaseModel):
     name = models.CharField(max_length=30)
@@ -51,6 +57,7 @@ class Group(BaseModel):
 
     def __str__(self):
         return self.name
+
 
     @property
     def data(self):
@@ -102,13 +109,10 @@ class Project(BaseModel):
 
     @property
     def verbose_data(self):
-        return {}
-
-
-class Readme(models.Model):
-    entry = models.ForeignKey('Project', null=True,
-                              on_delete=models.SET_NULL)
-    content = models.CharField(max_length=3000)
+        data = self.data
+        data['members'] = [{'username': x.username, 'id': x.id}
+                           for x in self.member.all()]
+        return data
 
 
 class Module(BaseModel):

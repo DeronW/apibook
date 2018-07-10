@@ -14,31 +14,29 @@
         <v-flex xs5>
             <h1 style="font-size: 38px; color: #e0e0e0;">{{$t('Groups')}}</h1>
             <v-list three-line>
-                <template v-for="(item, index) in group_list">
+                <template v-for="(item, index) in groups.slice(0, limit)">
                     <v-divider :key="'group'+item.id" v-if="index != 0"></v-divider>
                     <v-list-tile :key="item.id" @click="linkGroup(item.id)">
                         <v-list-tile-content>
                             <v-list-tile-title>{{item.name}}</v-list-tile-title>
-                            <v-list-tile-sub-title>
-                                {{item.describe.substr(0, 50)}} {{item.describe.length > 50 ? '...' : ''}}
-                            </v-list-tile-sub-title>
+                            <v-list-tile-sub-title>{{item.describe}}</v-list-tile-sub-title>
                         </v-list-tile-content>
                         <v-list-tile-action>
                             <v-list-tile-action-text>{{$dayjs().from($dayjs(item.updated_at*1000))}}</v-list-tile-action-text>
-                            <v-icon v-if="item.scope == 'private'">visibility_off</v-icon>
-                            <v-icon v-if="item.star" color="orange"> star </v-icon>
+                            <GroupScopeText :scope="item.scope"/>
+                            <v-icon v-if="item.star" color="orange">star</v-icon>
                         </v-list-tile-action>
                     </v-list-tile>
                 </template>
             </v-list>
-            <v-btn nuxt to="/groups" block>
+            <v-btn v-if="groups.length > limit" nuxt to="/groups" block>
                 {{$t('Check All')}}
             </v-btn>
         </v-flex>
         <v-flex xs5 offset-xs1>
             <h1 style="font-size: 38px; color: #e0e0e0;">{{$t('Projects')}}</h1>
             <v-list three-line>
-                <template v-for="(item, index) in project_list">
+                <template v-for="(item, index) in projects.slice(0, limit)">
                     <v-divider :key="'project'+item.id + index " v-if="index != 0"></v-divider>
                     <v-list-tile :key="item.id" @click="linkProject(item.id)">
                         <v-list-tile-content>
@@ -64,7 +62,7 @@
                     </v-list-tile>
                 </template>
             </v-list>
-            <v-btn nuxt to="/projects" block>
+            <v-btn v-if="projects.length > limit" nuxt to="/projects" block>
                 {{$t('Check All')}}
             </v-btn>
         </v-flex>

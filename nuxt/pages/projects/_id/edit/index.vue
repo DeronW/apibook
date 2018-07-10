@@ -1,14 +1,12 @@
 <template>
-<v-layout>
-    sdf
-</v-layout>
+    <ProjectForm :projectId="projectId" />
 </template>
 
 <script>
 import { ProjectForm } from "~/components";
 export default {
     asyncData({ params }) {
-        return { id: params.id };
+        return { projectId: params.id };
     },
     components: {
         ProjectForm

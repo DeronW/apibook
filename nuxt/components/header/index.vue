@@ -35,9 +35,9 @@
 
         <v-toolbar-items>
             <v-btn nuxt v-if="show.login" to="/login">{{$t('Login')}} </v-btn>
-            <v-btn nuxt v-if="show.register" to="/register">{{$t('Register')}} </v-btn>
-            <v-btn nuxt v-if="show.login" :to="'/users/' + user.id">{{user.name}}</v-btn>
-            <v-btn v-if="show.login" v-on:click="logout">{{$t('Logout')}}</v-btn>
+            <v-btn nuxt v-if="show.register" to="/register">{{$t('Register')}}</v-btn>
+            <v-btn nuxt v-if="user.isLogin" :to="'/users/' + user.id">{{user.name}}</v-btn>
+            <v-btn v-if="show.logout" v-on:click="logout">{{$t('Logout')}}</v-btn>
         </v-toolbar-items>
     </v-toolbar>
 </template>

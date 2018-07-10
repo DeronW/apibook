@@ -1,9 +1,16 @@
 export default {
-    props: ["disabled", "id"],
+    props: ["disabled", "projectId"],
     data() {
         return {
-            valid: true,
+            member_titles: [
+                { text: this.$t("Username"), class: "text-xs-center" },
+                {
+                    text: "",
+                    sortable: false
+                }
+            ],
             group_list: [],
+            addUserTips: null,
             model: {
                 name: "",
                 describe: "",
@@ -11,21 +18,14 @@ export default {
                 status: "maintaining",
                 group_id: "",
 
-                members: ["1", "Playing video games", "3", "Sleeping"]
+                members: []
             }
         };
     },
     mounted() {
-        if (this.id) {
-            this.$axios.$get("/project/info.json?id=" + this.id).then(data => {
-                this.model.name = data.name;
-                this.model.describe = data.describe;
-                this.model.scope = data.scope;
-                this.model.status = data.status;
-                this.model.group_id = data.group_id;
-            });
-        }
-        this.$axios.$get("/group/list.json").then(data => {
+        if (this.projectId) this.refreshProjectInfo();
+
+        this.$axios.$get("/group/all.json").then(data => {
             let items = [];
             data.forEach(i => {
                 items.push({
@@ -38,8 +38,23 @@ export default {
     },
     methods: {
         submit() {
-            if (!this.$refs.form.validate()) return;
-            this.id ? this.updateGroup() : this.createGroup();
+            if (this.model.name) {
+                this.projectId ? this.updateGroup() : this.createGroup();
+            } else {
+                alert(this.$t("Name is required"));
+            }
+        },
+        refreshProjectInfo() {
+            this.$axios
+                .$get("/project/info.json?pid=" + this.projectId)
+                .then(data => {
+                    this.model.name = data.name;
+                    this.model.describe = data.describe;
+                    this.model.scope = data.scope;
+                    this.model.status = data.status;
+                    this.model.group_id = data.group_id;
+                    this.model.members = data.members;
+                });
         },
         createGroup() {
             this.$axios
@@ -60,12 +75,13 @@ export default {
         },
         updateGroup() {
             this.$axios
-                .$post("/group/update.json", {
-                    id: this.id,
+                .$post("/project/update.json", {
+                    pid: this.projectId,
                     name: this.model.name,
                     describe: this.model.describe,
                     scope: this.model.scope,
-                    status: this.model.status
+                    status: this.model.status,
+                    group_id: this.model.group_id
                 })
                 .then(() => {
                     this.$store.dispatch("notify", {
@@ -74,9 +90,40 @@ export default {
                     });
                 });
         },
-        removeMember(name) {
-            this.members.splice(this.members.indexOf(name), 1);
-            this.members = [...this.members];
+        addMember(event) {
+            this.$axios
+                .$post("/project/add/member.json", {
+                    email_or_username: event.target.value,
+                    pid: this.projectId
+                })
+                .then(
+                    () => {
+                        this.addUserTips = null;
+                        this.$store.dispatch("notify", {
+                            type: "success",
+                            text: this.$t("Add member Success")
+                        });
+                    },
+                    e => {
+                        this.addUserTips = e.message || "Failed";
+                    }
+                )
+                .then(this.refreshProjectInfo);
+        },
+        removeMember(uid) {
+            if (!confirm(this.$t("Remove user from this project?"))) return;
+            this.$axios
+                .$post("/project/remove/member.json", {
+                    uid: uid,
+                    pid: this.projectId
+                })
+                .then(() => {
+                    this.$store.dispatch("notify", {
+                        type: "success",
+                        text: this.$t("Remove member Success")
+                    });
+                })
+                .then(this.refreshProjectInfo);
         }
     }
 };

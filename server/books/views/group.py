@@ -33,35 +33,37 @@ def create(request):
 @need_login
 def update(request):
     data = request.json
-    group = Group.objects.filter(id=data.get('id'))[0]
+    group = Group.get(data.get('gid'))
 
     if group is None:
-        return JsonResponse({'success': False, 'message': {
-            'type': 'error',
-            'text': 'Group id:%s does not exist' % data.get('id')
-        }})
-
+        return Fail('Group id:%s does not exist' % data.get('gid'))
     group.name = data.get('name')
     group.describe = data.get('describe')
     group.scope = data.get('scope')
     group.save()
 
-    return JsonResponse({'success': True, 'data': {'id': group.id}})
+    return Success()
 
 
 @need_login
 def info(request):
-    group = Group.objects.get(id=request.GET.get('id'))
+    gid = request.GET.get('gid')
+    group = Group.get(gid)
     if group:
         data = group.verbose_data
         return Success(data)
     else:
-        return Fail({'message': 'Group id:%s not exist' % id})
+        return Fail('Group id:%s not exist' % gid)
 
 
 def all(request):
-    groups = Group.objects.all().order_by('name')
-    groups = [x.data for x in groups]
+    groups = []
+    if request.user.is_authenticated:
+        private_groups = request.user.group_members.all().order_by('name')
+        groups.extend([x.data for x in private_groups])
+
+    public_groups = Group.objects.filter(scope='public').order_by('name')
+    groups.extend([x.data for x in public_groups])
     return Success(groups)
 
 
@@ -95,7 +97,7 @@ def add_member(request):
     eu = request.json.get('email_or_username')
     user = User.objects.filter(Q(email=eu) | Q(username=eu))
     if user:
-        group = Group.objects.get(id=request.json.get('id'))
+        group = Group.get(request.json.get('gid'))
         group.member.add(user[0])
         return Success()
     else:
@@ -104,8 +106,9 @@ def add_member(request):
 
 @need_login
 def remove_member(request):
-    user = User.objects.get(id=request.json.get('user_id'))
-    group = Group.objects.get(id=request.json.get('id'))
+    data = request.json
+    user = User.objects.get(id=data.get('uid'))
+    group = Group.get(id=data.get('gid'))
     group.member.remove(user)
     return Success()
 

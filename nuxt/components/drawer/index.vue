@@ -20,9 +20,20 @@
 <template>
   <v-navigation-drawer v-model="drawer" fixed clipped class="grey lighten-4" app>
     <v-list dense class="grey lighten-4">
-        <ListTitle icon="star_border" :text="$t('Favorite Projects')" />
 
-        <v-list-tile v-for="(i, index) in projects" :key="'group'+i.id" class="pl-5"
+        <ListTitle v-if="!freelance" icon="star_border" :text="$t('Favorite Groups')" />
+        <v-list-tile v-for="i in groups" :key="i.id"  class="pl-5"
+            @click="link(`/groups/${i.id}`)"> {{i.name}}
+        </v-list-tile>
+
+        <v-list-tile class="pl-5 blue-grey--text" @click="link(`/groups`)">
+            {{$t('All Groups')}}
+        </v-list-tile>
+
+        <v-divider dark class="my-3"></v-divider>
+
+        <ListTitle v-if="!freelance" icon="star_border" :text="$t('Favorite Projects')" />
+        <v-list-tile v-for="i in projects" :key="i.id" class="pl-5"
             @click="link(`/projects/${i.id}`)">
             {{i.name}}
         </v-list-tile>
@@ -31,23 +42,12 @@
         </v-list-tile>
 
         <v-divider dark class="my-3"></v-divider>
-
-        <ListTitle icon="star_border" :text="$t('Favorite Groups')" />
-        <v-list-tile v-for="(i,index) in groups" :key="'project'+i.id"  class="pl-5"
-            @click="link(`/groups/${i.id}`)">
-            {{i.name}}
-        </v-list-tile>
-        <v-list-tile class="pl-5 blue-grey--text" @click="link(`/groups`)">
-            {{$t('All Groups')}}
-        </v-list-tile>
-
-        <v-divider dark class="my-3"></v-divider>
         <ListTitle icon="settings" :text="$t('Settings')" />
         <v-list-tile class="pl-5"
             @click="link('/config')">
             {{$t('Global Settings')}}
         </v-list-tile>
-        <v-list-tile class="pl-5"
+        <v-list-tile class="pl-5" v-if="!freelance" 
             @click="link('/users')">
             {{$t('Users Management')}}
         </v-list-tile>

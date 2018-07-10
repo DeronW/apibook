@@ -17,19 +17,23 @@ groups = [
     path('update.json', group.update),
     path('all.json', group.all),
     path('favorites.json', group.favorites),
-    path('add_member.json', group.add_member),
-    path('remove_member.json', group.remove_member),
+    path('add/member.json', group.add_member),
+    path('remove/member.json', group.remove_member),
     path('remove_project.json', group.remove_project),
     path('info.json', group.info)
 ]
 
 projects = [
     path('create.json', project.create),
-    # path('update.json', project.update),
-    path('favorite.json', project.favorite),
-    path('list.json', project.list),
+    path('update.json', project.update),
+    path('watching.json', project.watching),
+    path('watch.json', project.watch),
+    path('unwatch.json', project.unwatch),
+    path('all.json', project.all),
     path('apis.json', project.apis),
     path('modules.json', project.modules),
+    path('add/member.json', project.add_member),
+    path('remove/member.json', project.remove_member),
     path('info.json', project.info)
 ]
 

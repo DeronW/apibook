@@ -6,8 +6,14 @@ export default {
         this.$store.dispatch("project/favorites");
     },
     computed: {
-        drawer() {
-            return this.$store.state.drawer;
+        freelance() {
+            return this.$store.state.config.freelance;
+        },
+        drawer: {
+            get() {
+                return this.$store.state.drawer;
+            },
+            set: () => null
         },
         projects() {
             return this.$store.state.project.favorites;

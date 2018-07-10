@@ -12,6 +12,7 @@
     "Disabled": "禁用",
     "Public": "公开",
     "Private": "私有",
+    "Project Scope": "可见范围",
     "public label": "任意浏览, 但只有有权限的成员才能修改",
     "private label": "仅有权限的成员才能浏览/修改",
     "Administrator": "管理员",
@@ -22,6 +23,7 @@
     "Path": "路径",
     "Module": "模块",
     "Method": "方法",
+    "Update Success": "更新成功",
     "Operation": "操作",
     "Prefix": "前缀",
     "Remove": "删除",
@@ -34,6 +36,8 @@
     "project": {
         "name": "项目名称",
         "describe": "项目描述",
+        "scope": "范围",
+        "status": "状态",
         "creator": "创建者",
         "created_at": "创建时间"
     }

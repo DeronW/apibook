@@ -3,10 +3,10 @@
 {
     "zh": {
         "Project Status": "项目状态",
-        "Submit": "保存",
         "input name": "输入用户名, 然后回车",
         "Group Selector": "选择群组",
-        "Project List": "项目列表"
+        "Add new member": "添加新成员",
+        "Member Management": "成员管理"
     },
     "en": {
         "input name": "Input username and press Enter"
@@ -17,7 +17,7 @@
 <template>
 
   <v-container grid-list-xl text-xs-center>
-    <v-form ref="form" v-model="valid" lazy-validation>
+    <v-card>
       <v-layout row wrap>
         <v-flex xs5 offset-xs1>
           <v-text-field v-model="model.name" :label="$t('project.name')" required>
@@ -26,9 +26,9 @@
 
             <v-select
               :items="group_list"
+              box
               v-model="model.group_id"
               :label="$t('Group Selector')"
-              single-line
             ></v-select>
 
         </v-flex>
@@ -42,6 +42,7 @@
             <v-radio :label="$t('Disabled')" value="disabled"></v-radio>
           </v-radio-group>
 
+          <h3 class="text-sm-left">{{$t('Project Scope')}}</h3>
           <v-radio-group v-model="model.scope">
             <v-radio :label="$t('Public')" value="public"></v-radio>
             <p class="text-sm-left">{{$t('public label')}}</p>
@@ -51,25 +52,39 @@
 
         </v-flex>
         <v-flex xs4>
-          <v-btn v-if="!disabled" :disabled="!valid" @click="submit" class="success">{{$t('Submit')}} </v-btn>
+          <v-btn @click="submit" class="success">{{$t('Submit')}} </v-btn>
         </v-flex>
       </v-layout>
-    </v-form>
+    </v-card>
     <br />
-    <v-layout row wrap>
-      <v-flex xs12>
-        <v-card>
-          <v-card-text>{{$t('Developer')}}</v-card-text>
-          <v-select v-model="model.members" :label="$t('input name')" chips tags solo>
-            <template slot="selection" slot-scope="data">
-              <v-chip :selected="data.selected" :close="!disabled" outline color="blue" @input="removeMember(data.item)">
-                <strong>{{ data.item }}</strong>
-              </v-chip>
-            </template>
-          </v-select>
+    <br />
 
-        </v-card>
-      </v-flex>
-    </v-layout>
+
+    <v-card v-if="this.projectId">
+      <v-layout row wrap>
+        <v-flex xs11 offset-xs1>
+          <h2>{{$t('Member Management')}}</h2>
+        </v-flex>
+        <v-flex xs5 offset-xs1>
+          
+          <v-alert :value="!addUserTips" outline color="info">{{$t('Add new member')}}</v-alert>
+          <v-alert :value="!!addUserTips" outline color="error">{{addUserTips}}</v-alert>
+          <v-text-field outline prepend-icon="people" clearable :label="$t('Email or Username')" @keyup.enter="addMember"></v-text-field>
+        </v-flex>
+
+        <v-flex xs5>
+          <v-data-table :headers="member_titles" :items="model.members" hide-actions>
+            <template slot="items" slot-scope="props">
+              <td class="text-xs-center">
+                  <v-btn flat color="info" nuxt :to="`/users/${props.item.id}`">{{ props.item.username }}</v-btn>
+              </td>
+              <td>
+                <v-btn flat color="red" @click="removeMember(props.item.id)">{{$t('Remove')}}</v-btn>
+              </td>
+            </template>
+          </v-data-table>
+        </v-flex>
+      </v-layout>
+    </v-card>
   </v-container>
 </template>

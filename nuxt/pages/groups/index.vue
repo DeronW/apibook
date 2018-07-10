@@ -31,9 +31,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-list-tile-action-text>{{$t('created at')}} {{$dayjs().from($dayjs(item.created_at*1000))}}</v-list-tile-action-text>
-                                <b class="info--text" v-if="item.scope == 'public'">{{$t('Public')}}</b>
-                                <b class="warning--text" v-if="item.scope == 'private'">{{$t('Private')}}</b>
-                                <!-- <p class="green--text" v-if="item.star"> {{$t('Collected')}} </p> -->
+                                <GroupScopeText :scope="item.scope"/>
                             </v-list-tile-action>
                         </v-list-tile>
                     </template>
@@ -44,6 +42,7 @@
 </template>
 
 <script>
+import { GroupScopeText } from "~/components";
 export default {
     head() {
         return {
@@ -53,6 +52,7 @@ export default {
     data() {
         return { groups: [] };
     },
+    components: { GroupScopeText },
     methods: {
         empty: function() {},
         link: function(path) {
