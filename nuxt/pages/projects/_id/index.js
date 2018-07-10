@@ -1,4 +1,4 @@
-import { ProjectModule, ProjectAPI } from "~/components";
+import { ProjectModule, ProjectAPI, ProjectScopeText } from "~/components";
 
 export default {
     asyncData({ params }) {
@@ -8,15 +8,19 @@ export default {
     },
     head() {
         return {
-            title: this.$t("Project")
+            title: this.project.name
         };
     },
     components: {
         ProjectModule,
-        ProjectAPI
+        ProjectAPI,
+        ProjectScopeText
     },
     data() {
         return {
+            project: {
+                name: "Project"
+            },
             dialogModule: {
                 show: false,
                 id: null
@@ -32,11 +36,19 @@ export default {
     },
     mounted() {
         this.refresh();
+        this.refreshProject()
     },
     methods: {
         check: function(id) {
             this.dialogApi.id = id;
             this.dialogApi.show = true;
+        },
+        refreshProject() {
+            this.$axios
+                .$get("/project/info.json?pid=" + this.projectId)
+                .then(data => {
+                    this.project = data;
+                });
         },
         refresh() {
             this.$axios

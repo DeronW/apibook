@@ -1,4 +1,4 @@
-import { GroupScopeText } from "~/components";
+import { GroupScopeText, ProjectScopeText } from "~/components";
 
 export default {
     head() {
@@ -14,7 +14,8 @@ export default {
         };
     },
     components: {
-        GroupScopeText
+        GroupScopeText,
+        ProjectScopeText
     },
     mounted() {
         this.$axios.$get("/group/all.json").then(data => {

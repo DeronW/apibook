@@ -1,8 +1,8 @@
 <template>
-<div>
+<span>
     <b class="info--text" v-if="scope == 'public'">{{$t('Public')}}</b>
     <b class="warning--text" v-if="scope == 'private'">{{$t('Private')}}</b>
-</div>
+</span>
 </template>
 <script>
 export default {

@@ -41,6 +41,17 @@
         </v-dialog>
 
         <v-flex xs12>
+            {{project.name}}
+            {{project.describe}}
+            <ProjectScopeText :scope="project.scope"/>
+
+            <v-btn color="info" flat>
+                <v-icon>add</v-icon>
+                {{$t('Edit')}}
+            </v-btn>
+        </v-flex>
+
+        <v-flex xs12>
             <v-btn color="success" outline @click="editModule()">
                 <v-icon>add</v-icon>
                 {{$t('New Module')}}

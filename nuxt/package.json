@@ -1,5 +1,6 @@
 {
-    "name": "ApiBook",
+    "name": "apibook",
+    "description": "Self host API document management service",
     "version": "0.1.0",
     "scripts": {
         "dev": "nuxt"

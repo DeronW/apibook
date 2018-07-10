@@ -10,7 +10,7 @@ export const mutations = {
 
 export const actions = {
     favorites({ commit }) {
-        this.$axios.$get("/group/favorites.json").then(data => {
+        this.$axios.$get("/group/watching.json").then(data => {
             commit("favorites", data);
         });
     }
