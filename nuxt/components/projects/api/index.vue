@@ -78,10 +78,10 @@
                     <br />
                     <h3>{{$t('Describe')}}</h3>
                     <v-flex xs6>
-                        <v-textarea box auto-grow
+                        <v-text-field box auto-grow
                             :label="$t('Describe')"
                             :value="model.describe"
-                        ></v-textarea>
+                        ></v-text-field>
                     </v-flex>
                 </v-flex>
 

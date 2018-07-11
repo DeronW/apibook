@@ -12,6 +12,7 @@
     "Disabled": "禁用",
     "Public": "公开",
     "Private": "私有",
+    "Edit": "编辑",
     "Project Scope": "可见范围",
     "public label": "任意浏览, 但只有有权限的成员才能修改",
     "private label": "仅有权限的成员才能浏览/修改",

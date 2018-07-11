@@ -4,10 +4,10 @@
     "zh": {
         "Project": "项目",
         "check": "查看",
+        "Export": "导出",
         "Edit Module": "编辑模块",
         "New Module": "新增模块",
         "New API": "新增 API",
-        "edit": "编辑",
         "No API in this module": "该模块下没有API"
     }
 }
@@ -41,14 +41,33 @@
         </v-dialog>
 
         <v-flex xs12>
-            {{project.name}}
-            {{project.describe}}
-            <ProjectScopeText :scope="project.scope"/>
+            <b>{{project.name}}</b>
+            <b v-if="project.status == 'deprecated'" class="red--text">(DEPRECATED)</b>
+            <ProjectScopeText className="ml-3" :scope="project.scope"/>
 
-            <v-btn color="info" flat>
-                <v-icon>add</v-icon>
-                {{$t('Edit')}}
-            </v-btn>
+            <v-btn flat nuxt :to="`/projects/${projectId}/edit`"> {{$t('Edit')}} </v-btn>
+            
+            <v-menu offset-y>
+                <v-btn
+                    slot="activator"
+                    flat
+                >
+                    {{$t('Export')}}
+                </v-btn>
+                <v-list>
+                    <v-list-tile
+                    v-for="(item, index) in ['HTML', 'Markdown', 'PDF', 'YAML']"
+                    :key="index"
+                    @click="exportFile(item)"
+                    >
+                    <v-list-tile-title>{{ item }}</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+
+        </v-flex>
+        <v-flex xs12>
+            <p class="grey--text">{{project.describe}}</p>
         </v-flex>
 
         <v-flex xs12>

@@ -36,7 +36,7 @@ export default {
     },
     mounted() {
         this.refresh();
-        this.refreshProject()
+        this.refreshProject();
     },
     methods: {
         check: function(id) {
@@ -85,6 +85,9 @@ export default {
             this.dialogApi.show = false;
             this.dialogApi.id = null;
             // this.refresh();
+        },
+        exportFile: function(type) {
+            console.log(type);
         }
     }
 };
