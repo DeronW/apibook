@@ -1,4 +1,4 @@
-// import ApiForm from '~/components/api/form'
+import CONSTANTS from '~/constants'
 
 export default {
     props: {
@@ -8,7 +8,6 @@ export default {
         close: Function
     },
     components: {
-        // ApiForm
     },
     data() {
         return {
@@ -16,6 +15,9 @@ export default {
                 type: "info",
                 text: ""
             },
+            FORM_TYPES: CONSTANTS.FORM_TYPES,
+            PLAIN_TYPES: CONSTANTS.PLAIN_TYPES,
+            METHODS: CONSTANTS.METHODS,
             OPTIONS: {
                 required: [
                     { text: this.$t("Yes"), value: true },
@@ -24,12 +26,14 @@ export default {
             },
             modules: [],
             model: {
-                path: "",
+                path: "/default/path.json",
                 method: "GET",
+                formType: 'application/x-www-form-urlencoded',
+                plainTextType: 'application/json',
                 module: this.moduleId,
-                describe: "No Comment",
+                describe: "",
                 request: {
-                    contentType: "application/json",
+                    contentType: "plain/text",
                     fields: []
                 },
                 response: {

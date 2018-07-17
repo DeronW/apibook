@@ -32,7 +32,7 @@
             v-model="dialogApi.show"
             overlay
             fullscreen >
-            <ProjectAPI 
+            <ProjectAPI v-if="dialogApi.show"
                 :projectId="projectId"
                 :moduleId="dialogApi.moduleId"
                 :ApiId="dialogApi.id"

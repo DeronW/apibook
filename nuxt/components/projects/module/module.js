@@ -31,6 +31,8 @@ export default {
             this.moduleId ? this.update() : this.create();
         },
         closeDialog: function() {
+            this.name = "";
+            this.prefix = "";
             this.close();
         },
         create: function() {
@@ -46,7 +48,7 @@ export default {
                         text: this.$t("Add member Success")
                     });
                 })
-                .then(this.closeDialog.bind(this));
+                .then(() => this.closeDialog());
         },
         update: function() {
             this.$axios
@@ -62,7 +64,7 @@ export default {
                         text: this.$t("Update member Success")
                     });
                 })
-                .then(this.closeDialog.bind(this));
+                .then(() => this.closeDialog());
         }
     }
 };
