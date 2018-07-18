@@ -34,6 +34,8 @@ projects = [
     path('all.json', project.all),
     path('apis.json', project.apis),
     path('modules.json', project.modules),
+    path('format/html', project.format_html),
+    path('format/markdown', project.format_markdown),
     path('add/member.json', project.add_member),
     path('remove/member.json', project.remove_member),
     path('info.json', project.info)

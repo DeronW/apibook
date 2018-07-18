@@ -26,13 +26,11 @@ def create(request):
     if data.get('group_id'):
         project.group = Group.objects.get(id=data.get('group_id'))
     project.save()
+    
     if project.id:
-        return JsonResponse({'success': True, 'data': {'id': project.id}})
+        return Success({'id': project.id})
     else:
-        return JsonResponse({'success': False, 'message': {
-            'type': 'error',
-            'text': 'creation fail'
-        }})
+        return Fail('Create Failed')
 
 
 @need_login
@@ -51,6 +49,7 @@ def update(request):
     project.save()
 
     return Success()
+
 
 @need_login
 def add_member(request):
@@ -72,6 +71,7 @@ def remove_member(request):
     project = Project.get(id=data.get('pid'))
     project.member.remove(user)
     return Success()
+
 
 def info(request):
     project = Project.get(request.GET.get('pid'))
@@ -133,11 +133,15 @@ def modules(request):
 
 
 def apis(request):
-    pid = request.GET.get('id')
+    pid = request.GET.get('pid')
     project = Project.objects.get(id=pid)
     apis = project.apientry_set.filter(deleted_at=None)
+    return Success([x.data for x in apis])
 
-    data = {
-        'apis': [x.data for x in apis]
-    }
-    return Success(data)
+def format_html(request):
+    html = ''
+    return Success(html)
+
+def format_markdown(request):
+    md = 'sdfg'
+    return Success(md)

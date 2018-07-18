@@ -151,7 +151,18 @@ class ApiEntry(BaseModel):
             'method': self.method,
             'module_id': self.module_id,
             'path': self.path,
-            'deprecated': self.deprecated
+            'deprecated': self.deprecated,
+        }
+
+    @property
+    def verbose_data(self):
+        return {
+            'method': self.method,
+            'module_id': self.module_id,
+            'path': self.path,
+            'deprecated': self.deprecated,
+            'project_id': self.project_id,
+            'module_id': self.module_id
         }
 
 

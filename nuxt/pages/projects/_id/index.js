@@ -57,7 +57,7 @@ export default {
                     this.modules = data;
                 });
             this.$axios
-                .$get("/project/apis.json?id=" + this.projectId)
+                .$get("/project/apis.json?pid=" + this.projectId)
                 .then(data => {
                     this.apis = data;
                 });

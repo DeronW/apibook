@@ -45,62 +45,48 @@
                 </v-flex>
                 <v-flex xs2>
                     <v-select
+                    v-if="!moduleId"
                     v-model="model.module"
                     :items="modules"
                     :label="$t('Module')"
                     item-text="name"
                     item-value="id"
-                    :disabled="!!moduleId"
                     ></v-select>
+                    <v-text-field v-if="moduleId" :label="$t('Module')" disabled :value="moduleName"></v-text-field>
+                
                 </v-flex>
                 <v-flex xs2>
-                    <v-select
-                    v-model="model.method"
-                    :label="$t('Method')"
-                    :items="METHODS"
-                    ></v-select>
+                    <v-select v-model="model.method" :label="$t('Method')" :items="METHODS" ></v-select>
                 </v-flex>
                 <v-flex xs2>
-                    <v-text-field 
-                        :label="$t('Prefix')"
-                        disabled 
-                        :value="prefix"></v-text-field>
+                    <v-text-field :label="$t('Prefix')" disabled :value="prefix"></v-text-field>
                 </v-flex>
                 <v-flex xs6>
-                    <v-text-field
-                        v-model="model.path"
-                        :label="$t('Path')"
-                        required
-                    ></v-text-field>
+                    <v-text-field v-model="model.path" :label="$t('Path')" required ></v-text-field>
                 </v-flex>
 
                 <v-flex xs12>
-                    <v-text-field box auto-grow
-                        :label="$t('Describe')"
-                        :value="model.describe"
-                    ></v-text-field>
+                    <v-text-field box auto-grow :label="$t('Describe')" :value="model.describe" ></v-text-field>
                 </v-flex>
 
                 <v-flex xs12>
                     <h3>{{$t('Request Type')}}</h3>
                 </v-flex>
 
-                <v-flex xs4>
+                <v-flex xs5>
                     <v-radio-group v-model="model.formType">
                         <v-radio
                             v-for="n in FORM_TYPES"
                             :key="n"
-                            :label="`${n}`"
+                            :label="n"
                             :value="n"
                         ></v-radio>
                     </v-radio-group>
-                </v-flex>
-                <v-flex xs4>
                     <v-select
-                    v-if="model.formType === 'raw'"
-                    v-model="model.request.contentType"
-                    label="Content-Type"
-                    :items="PLAIN_TYPES"
+                        v-if="model.formType === 'raw'"
+                        v-model="model.request.contentType"
+                        label="Content-Type"
+                        :items="CONTENT_TYPES"
                     ></v-select>
                 </v-flex>
 
@@ -111,13 +97,15 @@
                     <template v-for="(field, index) in model.request.fields">
                         <v-layout v-bind:key="index" style="height: auto;">
                             <v-flex xs2>
-                                <v-text-field :label="$t('field name')" :value="field.name"></v-text-field>
+                                <v-text-field 
+                                    :label="$t('field name')" 
+                                    v-model="field.name"></v-text-field>
                             </v-flex>
                             <v-flex xs2>
                                 <v-select
                                 v-model="field.type"
                                 :label="$t('field type')"
-                                :items="['String', 'Boolean', 'Number', 'Array', 'Object']"
+                                :items="FIELD_TYPES"
                                 ></v-select>
                             </v-flex>
                             <v-flex xs1>
@@ -128,13 +116,20 @@
                                 ></v-select>
                             </v-flex>
                             <v-flex xs3>
-                                <v-text-field multi-line rows="1" :label="$t('field describe')" :value="field.placeholder"></v-text-field>
+                                <v-text-field 
+                                    multi-line rows="1"
+                                    v-model="field.describe"
+                                    :label="$t('field describe')" 
+                                    :value="field.placeholder"></v-text-field>
                             </v-flex>
                             <v-flex xs2>
-                                <v-text-field :label="$t('field placeholder')" :value="field.placeholder"></v-text-field>
+                                <v-text-field 
+                                    v-model="field.example"
+                                    :label="$t('field placeholder')" 
+                                    :value="field.placeholder"></v-text-field>
                             </v-flex>
                             <v-flex xs1>
-                                <v-btn small icon flat color="red">
+                                <v-btn small icon flat color="red" @click="removeRequestField(index)">
                                     <v-icon>remove_circle</v-icon>
                                 </v-btn>
                             </v-flex>
@@ -148,32 +143,45 @@
 
                 <v-divider></v-divider>
 
-                <v-flex xs12>
+                <v-flex xs5>
                     <br />
                     <h3>{{$t('Response Data')}}</h3>
                     <v-select
                     v-model="model.response.contentType"
-                    :items="['application/json', 'plaintext']"
+                    :items="CONTENT_TYPES"
                     ></v-select>
+                </v-flex>
                     
-                    <template v-for="(field, name) in model.response.fields">
-                        <v-layout v-bind:key="name" style="height: auto;">
+                <v-flex xs12>
+                    <template v-for="(field, index) in model.response.fields">
+                        <v-layout v-bind:key="index" style="height: auto;">
                             <v-flex xs3>
-                                <v-text-field :label="$t('field name')" :value="name"></v-text-field>
+                                <v-text-field 
+                                    v-model="field.name"
+                                    :label="$t('field name')"></v-text-field>
                             </v-flex>
                             <v-flex xs2>
                                 <v-select
-                                v-model="field.type"
-                                :label="$t('field type')"
-                                :items="['String', 'Number', 'Array', 'Object']"
+                                    v-model="field.type"
+                                    :label="$t('field type')"
+                                    :items="FIELD_TYPES"
                                 ></v-select>
                             </v-flex>
                             <v-flex xs4>
-                            <v-text-field :label="$t('field example')" :value="field.placeholder"></v-text-field>
+                            <v-text-field 
+                                :label="$t('field example')" 
+                                v-model="field.placeholder"
+                            ></v-text-field>
+                            </v-flex>
+
+                            <v-flex xs1>
+                                <v-btn small icon flat color="red" @click="removeResponseField(index)">
+                                    <v-icon>remove_circle</v-icon>
+                                </v-btn>
                             </v-flex>
                         </v-layout>
                     </template>
-                    <v-btn>
+                    <v-btn @click="addResponseField">
                         <v-icon>add</v-icon>
                         {{$t('Add')}}
                     </v-btn>

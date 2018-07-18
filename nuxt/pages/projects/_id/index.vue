@@ -87,11 +87,11 @@
                         <b>{{item.name}}</b>
                         <v-spacer></v-spacer>
                         <v-btn flat @click="editModule(item.id)">
-                            <v-icon>edit</v-icon>
+                            <v-icon small>edit</v-icon>
                             {{$t('Edit Module')}}
                         </v-btn>
                         <v-btn flat @click="createAPI(item.id)">
-                            <v-icon>add</v-icon>
+                            <v-icon small>add</v-icon>
                             {{$t('New API')}}
                         </v-btn>
                     </v-card-title>
@@ -102,7 +102,11 @@
                     >
                         <template slot="items" slot-scope="props">
                             <td class="text-xs-center">{{ props.item.method }}</td>
-                            <td>{{ props.item.path }}</td>
+                            <td>
+                                {{ props.item.path }}
+                                <v-btn icon>
+                                <v-icon small>file_copy</v-icon></v-btn>
+                            </td>
                             <td>{{ props.item.describe }}</td>
                             <td>{{ props.item.updated_at }}</td>
                             <td class="text-xs-right">
@@ -120,7 +124,6 @@
 
         <v-flex xs12>
             <v-data-table
-                v-if="apis.length"
                 :items="apis"
                 hide-actions
                 hide-headers

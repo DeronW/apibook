@@ -1,4 +1,4 @@
-import CONSTANTS from '~/constants'
+import CONSTANTS from "~/constants";
 
 export default {
     props: {
@@ -7,16 +7,16 @@ export default {
         ApiId: Number,
         close: Function
     },
-    components: {
-    },
+    components: {},
     data() {
         return {
             alert: {
                 type: "info",
                 text: ""
             },
+            FIELD_TYPES: CONSTANTS.FIELD_TYPES,
             FORM_TYPES: CONSTANTS.FORM_TYPES,
-            PLAIN_TYPES: CONSTANTS.PLAIN_TYPES,
+            CONTENT_TYPES: CONSTANTS.CONTENT_TYPES,
             METHODS: CONSTANTS.METHODS,
             OPTIONS: {
                 required: [
@@ -28,8 +28,8 @@ export default {
             model: {
                 path: "/default/path.json",
                 method: "GET",
-                formType: 'application/x-www-form-urlencoded',
-                plainTextType: 'application/json',
+                formType: "application/x-www-form-urlencoded",
+                plainTextType: "application/json",
                 module: this.moduleId,
                 describe: "",
                 request: {
@@ -37,7 +37,7 @@ export default {
                     fields: []
                 },
                 response: {
-                    contentType: "plaintext",
+                    contentType: "plain/text",
                     fields: []
                 },
                 deprecated: false,
@@ -69,6 +69,14 @@ export default {
     },
 
     computed: {
+        moduleName: function(){
+            if (this.model.module)
+                for (let i = 0; i < this.modules.length; i++) {
+                    if (this.modules[i].id == this.model.module)
+                        return this.modules[i].name;
+                }
+            return "";
+        },
         prefix: function() {
             if (this.model.module)
                 for (let i = 0; i < this.modules.length; i++) {
@@ -90,7 +98,9 @@ export default {
                     path: this.model.path,
                     describe: this.model.describe,
                     module_id: this.model.module,
-                    project_id: this.projectId
+                    project_id: this.projectId,
+                    request: this.model.request,
+                    response: this.model.response
                 })
                 .then(data => {
                     this.alert = {
@@ -114,10 +124,30 @@ export default {
         addResuestField() {
             let fields = this.model.request.fields;
             fields.push({
-                name: "new",
+                name: "",
+                required: false,
                 type: "String"
             });
             this.model.request.fields = fields;
+        },
+        removeRequestField(index) {
+            let fields = this.model.request.fields;
+            fields = [...fields.slice(0, index), ...fields.slice(index + 1)];
+            this.model.request.fields = fields;
+        },
+        addResponseField() {
+            let fields = this.model.response.fields;
+            fields.push({
+                name: "",
+                optional: true,
+                type: "String"
+            });
+            this.model.response.fields = fields;
+        },
+        removeResponseField(index) {
+            let fields = this.model.response.fields;
+            fields = [...fields.slice(0, index), ...fields.slice(index + 1)];
+            this.model.response.fields = fields;
         }
     }
 };

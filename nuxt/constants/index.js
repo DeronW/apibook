@@ -16,7 +16,7 @@ const FORM_TYPES = [
     "raw"
 ];
 
-const PLAIN_TYPES = [
+const CONTENT_TYPES = [
     "plain/text",
     "application/json",
     "application/xml",
@@ -28,6 +28,6 @@ const FIELD_TYPES = ["String", "Boolean", "Number", "Array", "Object"];
 export default {
     METHODS,
     FORM_TYPES,
-    PLAIN_TYPES,
+    CONTENT_TYPES,
     FIELD_TYPES
 };
