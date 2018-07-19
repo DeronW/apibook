@@ -26,7 +26,7 @@ def create(request):
     if data.get('group_id'):
         project.group = Group.objects.get(id=data.get('group_id'))
     project.save()
-    
+
     if project.id:
         return Success({'id': project.id})
     else:
@@ -138,10 +138,24 @@ def apis(request):
     apis = project.apientry_set.filter(deleted_at=None)
     return Success([x.data for x in apis])
 
+
 def format_html(request):
     html = ''
     return Success(html)
 
+
 def format_markdown(request):
+    md = 'md'
+    res = HttpResponse(md, content_type='plain/markdown')
+    return res
+
+
+def format_pdf(request):
+    res = HttpResponse(my_data, content_type='application/vnd.ms-excel')
+    res['Content-Disposition'] = 'attachment; filename="foo.xls"'
+    return res
+
+
+def format_yaml(request):
     md = 'sdfg'
     return Success(md)
